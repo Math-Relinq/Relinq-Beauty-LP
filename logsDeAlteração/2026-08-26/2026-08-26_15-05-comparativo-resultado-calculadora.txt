@@ -1,0 +1,6 @@
+Data/Hora: 2026-08-26 15:05
+
+Alterações realizadas:
+- index.html: o bloco .cost__highlight (id="costHighlight") agora tem dois estados: o exemplo estático original (.cost__highlight-default) e um novo comparativo (.cost__highlight-compare, id="costCompare") com duas linhas de resultado: "Sem Relinq Beauty" (valor considerando os agendamentos perdidos) e "Com Relinq Beauty" (valor desconsiderando os agendamentos perdidos, R$ 0,00/ano). O comparativo fica oculto até o cálculo ser concluído.
+- css/sections.css: adicionados estilos para .cost__highlight-compare, .cost__compare-row (variantes --loss com ❌ e --gain com ✅) e .cost__compare-value, reaproveitando a tipografia do valor de destaque existente.
+- js/main.js: initCalcInputs reescrita para, assim que os três campos (ticket médio, faltas por dia, dias trabalhados) estiverem preenchidos com números válidos pela primeira vez, esconder o exemplo estático, mostrar o comparativo "Sem/Com Relinq Beauty" com os valores calculados, tirar o foco do campo (fecha teclado no mobile) e centralizar o bloco de resultado na tela (scrollIntoView com block: "center"). A centralização e a troca de texto ocorrem apenas na primeira vez que o resultado aparece; os valores continuam atualizando em tempo real a cada novo dígito, e o estado volta ao exemplo estático caso algum campo seja apagado.

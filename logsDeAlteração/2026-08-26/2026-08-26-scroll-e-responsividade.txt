@@ -1,0 +1,42 @@
+Alterações realizadas em 2026-08-26
+====================================
+
+CORREÇÃO POSTERIOR: o `overscroll-behavior: contain` aplicado em .section (item 3 abaixo) ficava ativo o tempo todo, não só durante a edição da calculadora. Como cada seção não tem sobra de rolagem própria (o conteúdo cabe exato em 100vh), a troca de seção via mouse/trackpad/touch dependia desse gesto "vazar" para o snap-container pai — com contain sempre ligado, isso travava a rolagem vertical da página inteira. Corrigido movendo essa regra para dentro de .section.keyboard-adjusting, aplicada apenas enquanto um campo da calculadora está em edição.
+
+1. Travada a rolagem horizontal de toda a página
+   - Arquivo: css/global.css
+   - Adicionado `overflow-x: hidden` e `max-width: 100%` em html/body, como reforço ao overflow-x:hidden que já existia apenas no container de scroll interno.
+
+2. Travada a rolagem vertical dos cards da seção "Dores" (e das demais trilhas horizontais que usam o mesmo bloco de CSS: lembretes e "como começar" no mobile)
+   - Arquivo: css/sections.css
+   - Adicionado `touch-action: pan-x`, `overflow-y: hidden` e `overscroll-behavior-y: none` em .pains__grid, .reminders__grid e .onboarding__steps (regra mobile compartilhada).
+
+3. Campo em edição na calculadora (seção 3) sempre visível acima do teclado no celular
+   - Arquivos: js/main.js, css/global.css
+   - Nova função initCalcKeyboardAdjust(): ao focar um input da calculadora, usa a API visualViewport para detectar o teclado e rola o campo para ficar acima dele.
+   - Foi necessário: (a) fazer a seção ativa acompanhar dinamicamente a altura visível real via variável CSS --vvh (classe .keyboard-adjusting), já que a seção é dimensionada para caber exatamente em 100svh e não sobrava espaço interno de rolagem; (b) desativar temporariamente o scroll-snap do container principal durante a edição, para o ajuste de scroll não disparar a troca automática de seção; (c) adicionar overscroll-behavior:contain nas seções para o scroll de correção não vazar para o container externo; (d) debounce nos eventos de focus/resize/scroll, pois sem isso múltiplas chamadas de scrollBy("smooth") concorriam entre si e a correção ficava incompleta.
+
+4. Travada a rolagem vertical de todos os carrosséis (depoimentos e planos)
+   - Arquivo: css/components.css
+   - Adicionado `touch-action: pan-x`, `overflow-y: hidden` e `overscroll-behavior-y: none` em .carousel-track (usado pelo carrossel de depoimentos da seção 5 e pelo de planos da seção 6). Os grids das seções 2/4/5 já haviam sido cobertos no item 2.
+
+5. Auditoria de responsividade após travar a rolagem horizontal
+   - Testado em larguras de 320px a 1920px: nenhuma rolagem horizontal de página restante em nenhuma largura.
+   - Durante a auditoria foram encontrados e corrigidos dois bugs pré-existentes de "estouro" de CSS Grid (colunas `1fr` sem piso mínimo, que não encolhem abaixo do conteúdo e vazam para fora da tela):
+     a) .hero__body (grid do Hero) — causava o corte da logo (ver item 6).
+     b) .hero-mock__stats (números do mockup "Sua agenda de hoje") — corrigido com `minmax(0, 1fr)`. Como efeito colateral, os rótulos (AGENDAMENTOS, CONFIRMADOS...) passaram a poder quebrar linha dentro do próprio card em telas muito estreitas (overflow-wrap: anywhere), em vez de ficarem sobrepostos pelo card vizinho.
+   - Por precaução, o mesmo ajuste `minmax(0, 1fr)` foi aplicado em todas as outras grades com colunas "1fr" do projeto (pains__grid, reminders__grid, onboarding__steps, nas versões desktop e tablet), prevenindo o mesmo tipo de bug em qualquer combinação futura de texto/largura.
+
+6. Logo cortada em algumas telas mobile
+   - Arquivo: css/sections.css
+   - Causa raiz: a coluna `1fr` do grid do Hero (.hero__body) não tinha piso mínimo, então a linha do logo+eyebrow não conseguia encolher e "estourava" a largura da tela, ficando centralizada e cortada igualmente dos dois lados. Corrigido trocando `1fr` por `minmax(0, 1fr)` nas duas definições de grid-template-columns (desktop e mobile). A logo passou a se reajustar dinamicamente para qualquer largura de tela sem cortes.
+
+7. Limite de tamanho máximo no quadro rosa do resultado da calculadora
+   - Arquivo: css/sections.css
+   - .cost__highlight passou a ter `max-width: 100%` (limitado pelo espaço disponível da seção); .cost__highlight-value ganhou `overflow-wrap: break-word` e `text-align: center`. Antes, um resultado com número grande (ex.: ticket médio alto) fazia o retângulo crescer além da largura da tela e ser cortado nas laterais; agora o texto quebra em várias linhas dentro do próprio card.
+
+Observação (não corrigido, fora do escopo pedido):
+   - .cost__highlight tem `transform: scale(0.5)` fixo, o que faz o quadro rosa aparecer sempre em metade do tamanho do espaço que reserva no layout, deixando um vão em branco ao redor dele mesmo no estado padrão (antes de o usuário preencher a calculadora). Não mexi nisso por não ter sido pedido, mas é um candidato a revisão futura.
+
+Verificação
+   - Todas as alterações foram testadas visualmente com Playwright + Microsoft Edge headless, em larguras de 320px a 1920px, cobrindo todas as seções da página, antes e depois de cada mudança, incluindo simulação do teclado virtual (via mock da API visualViewport) e preenchimento da calculadora com valores extremos.

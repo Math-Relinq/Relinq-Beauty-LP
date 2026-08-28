@@ -1,0 +1,16 @@
+Alterações realizadas:
+
+1. Mais respiro entre elementos e nas bordas das seções
+- css/variables.css: aumentado --section-padding-inline (borda lateral das seções).
+- css/global.css: aumentado o padding vertical e o gap interno de .section__body (inclusive nos breakpoints mobile e de altura reduzida).
+- css/sections.css: aumentado o gap dos grids de cards (.pains__grid, .reminders__grid, .onboarding__steps).
+
+2. Cores no comparativo "Sem/Com Relinq Beauty" (seção "A falta é prejuízo com data marcada")
+- css/sections.css: .cost__compare-row--loss .cost__compare-value agora fica vermelho (var(--red-500))
+  e .cost__compare-row--gain .cost__compare-value fica verde (var(--green-500)).
+- js/main.js: initCalcInputs agora escreve o sinal "-" no valor de "Sem Relinq Beauty" e "+" no valor
+  de "Com Relinq Beauty", e ambos passam a usar o mesmo valor anual (o prejuízo evitado), em vez do
+  "Com Relinq Beauty" fixo em R$ 0,00/ano.
+- index.html: valores estáticos iniciais de #costWithout e #costWith atualizados para refletir os sinais.
+
+Testado visualmente em desktop (1440px) com servidor local + Playwright/Chromium.

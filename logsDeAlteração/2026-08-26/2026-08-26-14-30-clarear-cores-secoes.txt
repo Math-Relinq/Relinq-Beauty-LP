@@ -1,0 +1,11 @@
+Data: 2026-08-26 14:30
+
+Alteração: Cores de fundo alternadas das seções ficaram mais próximas do branco, mantendo o tom rosa porém mais suave.
+
+Arquivo: css/variables.css
+- "--bg-page" alterado de #FDEBF3 (253, 235, 243) para #FDF3F7 (253, 243, 247).
+- "--bg-page-rgb" atualizado para "253, 243, 247".
+- "--bg-page-alt" alterado de #F7CFE4 (247, 207, 228) para #FAE5EE (250, 229, 238).
+- "--bg-page-alt-rgb" atualizado para "250, 229, 238".
+
+Relacionado a: logsDeAlteração/2026-08-26/2026-08-26-alternar-cores-secoes.txt

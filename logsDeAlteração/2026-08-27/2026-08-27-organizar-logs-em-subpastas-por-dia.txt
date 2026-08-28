@@ -1,0 +1,47 @@
+Data: 2026-08-27
+
+Alteração: Reorganização da pasta "logsDeAlteração" para seguir o padrão definido no
+claude.md — os logs devem ficar em subpastas nomeadas pelo dia a que pertencem, e não
+soltos na raiz da pasta.
+
+Pasta: logsDeAlteração/2026-08-26/ (nova)
+- Criada a subpasta com a data de 2026-08-26.
+- Movidos para dentro dela, via "git mv" (preservando histórico), os 15 arquivos de log que
+  antes estavam soltos em logsDeAlteração/, todos referentes a alterações feitas em 2026-08-26:
+  - 2026-08-26-14-30-clarear-cores-secoes.txt
+  - 2026-08-26-alternar-cores-secoes.txt
+  - 2026-08-26-centralizar-hero-mock.txt
+  - 2026-08-26-cores-rosa-secoes.txt
+  - 2026-08-26-desativar-scroll-snap.txt
+  - 2026-08-26-destaque-subtitulo-hero.txt
+  - 2026-08-26-formatar-valores-monetarios.txt
+  - 2026-08-26-liberar-scroll-vertical-sobre-cards.txt
+  - 2026-08-26-reativar-scroll-snap-com-cores.txt
+  - 2026-08-26-remover-altura-fixa-secoes.txt
+  - 2026-08-26-remover-snap-scrollbar-rosa.txt
+  - 2026-08-26-scroll-e-responsividade.txt
+  - 2026-08-26_14-45-moldura-calculadora.txt
+  - 2026-08-26_15-05-comparativo-resultado-calculadora.txt
+  - 2026-08-26_17-05-correcoes-calculadora-carrossel-precos.txt
+
+Conteúdo dos logs movidos:
+- Atualizadas as referências internas "logsDeAlteração/2026-08-26-..." para o novo caminho
+  "logsDeAlteração/2026-08-26/2026-08-26-..." nos arquivos que citam outros logs
+  (2026-08-26-14-30-clarear-cores-secoes.txt, 2026-08-26-alternar-cores-secoes.txt,
+  2026-08-26-remover-altura-fixa-secoes.txt e 2026-08-26-reativar-scroll-snap-com-cores.txt),
+  para que os links "Relacionado a:" continuem válidos.
+- Nenhum outro conteúdo dos logs foi alterado.
+
+Pasta: logsDeAlteração/2026-08-27/ (nova)
+- Criada para receber este e os próximos logs de alterações feitas em 2026-08-27.
+
+Padrão a seguir daqui para frente:
+- Cada alteração gera um arquivo .txt dentro de logsDeAlteração/AAAA-MM-DD/ (a data do dia
+  em que a alteração foi feita).
+- Nome do arquivo: AAAA-MM-DD[-HH-MM]-descricao-curta-em-kebab-case.txt
+- Estrutura do conteúdo: linha "Data:" (ou "Data/Hora:"), descrição da alteração,
+  bloco por arquivo tocado listando o que mudou e por quê, e, quando houver, "Relacionado a:"
+  apontando para outros logs pelo caminho completo a partir da raiz do repositório.
+
+Nenhuma alteração em código, HTML, CSS ou JS do site foi feita nesta tarefa — apenas
+reorganização de arquivos de log e ajuste de referências internas entre eles.

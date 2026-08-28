@@ -1,0 +1,13 @@
+Data: 2026-08-26
+
+Alteração: Desativado o scroll-snap vertical entre seções (rolagem passou a ser normal/livre).
+
+Arquivo: css/global.css
+- Removida a propriedade "scroll-snap-type: y mandatory;" do seletor .snap-container.
+- Removidas as propriedades "scroll-snap-align: start;" e "scroll-snap-stop: always;" do seletor .section.
+- Mantido "scroll-behavior: smooth;" no .snap-container, para preservar a rolagem suave.
+
+Observações:
+- O snap-scroll horizontal dos carrosséis (css/components.css e css/sections.css) NÃO foi alterado, pois é um comportamento independente do encaixe entre seções verticais.
+- A navegação por teclado (setas/PageUp/PageDown) em js/scroll.js continua pulando seção a seção via scrollTo, mas agora a rolagem manual (mouse/touch) do usuário não é mais forçada a "grudar" no início de cada seção.
+- O trecho em js/main.js que zera/restaura "scrollSnapType" durante a edição de campos do formulário (linhas ~152 e ~161) ficou inofensivo/inerte, pois não há mais scroll-snap-type definido no CSS base; não foi removido para manter a alteração mínima e focada.

@@ -1,0 +1,70 @@
+Data/Hora: 2026-08-26 17:05
+
+Contexto: execução das 7 tarefas listadas em tasks.txt.
+
+Alterações realizadas:
+
+1) css/sections.css — .cost__compare-value (números "Sem/Com Relinq Beauty" no resultado da
+   calculadora): tamanho de fonte reduzido de var(--fs-hero-number) para clamp(1.4rem, 5.5vw, 2.6rem)
+   e trocado overflow-wrap:break-word por white-space:nowrap, para os valores nunca quebrarem linha
+   em telas estreitas.
+
+2) js/main.js — nova função waitForKeyboardClose(): a centralização do bloco de resultado
+   (highlight.scrollIntoView com block:"center") agora só roda depois que o teclado virtual (se
+   houver) termina de fechar de verdade (monitorando window.visualViewport), em vez de um
+   setTimeout fixo. Antes, a centralização era calculada com o teclado ainda encolhendo a tela,
+   e o resultado ficava alto demais assim que o teclado terminava de fechar. Testado e validado em
+   3 tamanhos de tela (1440x900, 1024x700, 390x844): o bloco fica centralizado (diferença
+   entre o centro do bloco e o centro da tela < 1px nos 3 casos).
+
+3) js/main.js (initCalcKeyboardAdjust) e css/global.css — removida a classe
+   ".section.keyboard-adjusting" (e a variável --vvh que só ela usava). Essa classe dava à seção
+   "custo das faltas" uma altura e rolagem PRÓPRIAS sempre que qualquer input da calculadora era
+   focado, o que: (a) fazia a seção encolher e a seção seguinte "subir" para o meio da tela mesmo
+   sem teclado virtual (bug do item 3 do tasks.txt); e (b) criava uma barra de rolagem separada
+   dentro da seção (bug do item 6). O ajuste para acompanhar o teclado virtual no mobile agora rola
+   o container único da página (data-snap-container) em vez da seção isolada — mesmo objetivo
+   (campo visível acima do teclado), sem duplicar a rolagem.
+
+4) js/carousel.js — corrigida a lógica de scrollByStep() do carrossel genérico. A condição antiga
+   de "wrap" (voltar ao primeiro item) disparava cedo demais perto do último slide (por causa de
+   arredondamento de subpixel), fazendo o carrossel voltar ao primeiro card em vez de avançar para
+   o último. Agora só há wrap quando o carrossel já está exatamente no início/fim antes do clique;
+   caso contrário a posição é apenas limitada (clamp) ao intervalo válido. Corrige tanto as setas do
+   carrossel de planos quanto a rolagem automática dos depoimentos, que antes ficava presa alternando
+   só entre os 2 primeiros itens. Validado com script: sequência de índices passou a percorrer
+   0→1→2→0→1→2... corretamente nos dois carrosséis.
+
+5) css/sections.css — ícone de "ok" do comparativo da calculadora (linha "Com Relinq Beauty")
+   trocado do emoji "✅" (com caixinha verde) para o caractere "✔" estilizado via CSS
+   (color: var(--green-500)), sem caixinha, com font-size 1.2em para manter peso visual
+   equivalente ao do emoji anterior. O "❌" da linha "Sem Relinq Beauty" não foi alterado
+   (não fazia parte do pedido).
+
+6) (mesma alteração do item 3 acima — bug único.)
+
+7) js/main.js (renderPricingCards) — nos planos com desconto (trimestral/semestral/anual), o preço
+   original ("de R$ X,XX", riscado) agora aparece ANTES do preço final ("para R$ Y,YY"), na mesma
+   linha (.pricing-card__price-row), no formato solicitado. Antes, "De R$ X,XX" aparecia depois da
+   linha de preço, com "De" maiúsculo e sem a palavra "para". Formatação de vírgula/milhar
+   (via formatPrice/toLocaleString pt-BR) mantida sem alterações.
+
+Testes realizados:
+- Script Node + Playwright (chromium) rodando o site via servidor HTTP local, cobrindo:
+  desktop (1440x900), tablet (1024x700) e mobile (390x844).
+- Preenchimento da calculadora (80 / 1 / 22): números não quebram linha nos 3 tamanhos, ícone de
+  "ok" sem caixinha verde, resultado centralizado (~centro exato da tela nos 3 tamanhos), nenhuma
+  classe/estilo de rolagem própria aplicada à seção durante o foco do input.
+- Alternância de ciclo de cobrança (Trimestral) na seção de planos: "de R$ 19,90" / "para R$ 17,91"
+  confirmado no HTML gerado.
+- Carrossel de planos: em largura onde nem todos os cards cabem, cliques sucessivos na seta
+  avançam progressivamente (índice 0→1→2) e só desabilitam ao chegar no último card real (o
+  carrossel de planos não é cíclico por design).
+- Carrossel de depoimentos (autoplay a cada 3s, cíclico): observado por ~18s, percorre os 3
+  depoimentos em sequência repetidamente, sem travar entre os dois primeiros.
+- Nenhum erro de console/página em nenhum dos testes acima.
+- Revisão visual (screenshots) da página completa em desktop e mobile sem regressões aparentes
+  fora do escopo das tarefas.
+
+Nenhuma alteração fora do escopo das 7 tarefas foi feita, além da limpeza da variável CSS --vvh e
+do comentário associado, necessária para remover com segurança a classe keyboard-adjusting (item 3/6).

@@ -1,0 +1,11 @@
+Alteração: Centralização dos elementos do card "hero-mock" (mockup da agenda no hero)
+
+Arquivo alterado: css/sections.css
+
+Resumo:
+- Adicionado text-align: center ao container .hero-mock, centralizando todo o texto internamente.
+- .hero-mock__header agora usa align-items: center para centralizar o label e o título.
+- .hero-mock__stat passou a centralizar seu conteúdo (text-align: center).
+- .hero-mock__rows agora centraliza os itens (align-items: center) e cada .hero-mock__row usa justify-content: center para centralizar o conteúdo horizontalmente, mantendo width: 100% para preencher o card.
+- Removido o overflow-wrap: anywhere do .hero-mock__stat-label.
+- Adicionado white-space: nowrap em .hero-mock__header-label, .hero-mock__header-title, .hero-mock__stat-value, .hero-mock__stat-label e .hero-mock__row-text para impedir quebra de linha nesses itens (estatísticas e linhas de agendamento).

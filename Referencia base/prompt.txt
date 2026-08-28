@@ -1,0 +1,627 @@
+# Crie a landing page da Relinq Beauty
+
+Quero que você desenvolva uma landing page completa, profissional, moderna e responsiva para a **Relinq Beauty**, seguindo rigorosamente as especificações abaixo.
+
+## 1. Objetivo
+
+A página deve apresentar o sistema Relinq Beauty para proprietários de salões de beleza, mostrando as dores que o sistema resolve, demonstrando seus recursos, explicando como começar e apresentando os planos disponíveis.
+
+A landing page deve ser uma **single-page**, sem abas e sem páginas internas. Todo o conteúdo estará organizado verticalmente em seções.
+
+A experiência deve ser semelhante à navegação por várias telas:
+
+* cada seção ocupa aproximadamente `100vh`;
+* utilizar `scroll-snap` para que a rolagem avance entre seções inteiras;
+* ao rolar, a viewport deve encaixar naturalmente na próxima seção;
+* cada seção deve parecer uma "página" independente dentro da landing page;
+* não criar uma navegação baseada em abas;
+* a página inteira deve continuar sendo um único documento HTML.
+
+## 2. Identidade visual — regra fundamental
+
+As imagens de referência que serão fornecidas ao final deste prompt são **auxiliares**. Não dependa delas para descobrir a identidade visual.
+
+A identidade visual deve ser reproduzida a partir desta descrição:
+
+### Paleta
+
+Utilize uma paleta predominantemente baseada em:
+
+* magenta/rosa como cor principal da marca;
+* variações de rosa e magenta;
+* gradientes em rosa/magenta;
+* branco como base de contraste;
+* cinzas muito claros para áreas secundárias;
+* cinza escuro/azul-marinho para textos principais;
+* cores de status como verde, amarelo e vermelho somente quando semanticamente necessárias.
+
+O rosa/magenta deve funcionar como elemento de identidade e destaque, e não simplesmente como uma cor aplicada aleatoriamente em toda a página.
+
+### Linguagem visual
+
+O design deve transmitir:
+
+* SaaS moderno;
+* profissional;
+* sofisticado;
+* clean;
+* amigável;
+* tecnológico;
+* organizado;
+* premium sem parecer excessivamente corporativo.
+
+Utilize bastante espaço negativo, mas sem criar espaços vazios exagerados.
+
+### Componentes
+
+A linguagem visual deve utilizar:
+
+* cards com cantos arredondados;
+* botões arredondados;
+* botões em formato pill quando apropriado;
+* chips/badges;
+* bordas suaves;
+* sombras discretas;
+* gradientes sutis;
+* ícones minimalistas;
+* elementos circulares para indicadores;
+* números grandes para métricas;
+* hierarquia tipográfica clara;
+* títulos fortes;
+* textos auxiliares menores e mais discretos.
+
+Todos os componentes precisam parecer pertencentes ao mesmo design system.
+
+Não faça simplesmente "uma landing page rosa". A identidade visual deve ser consistente em **tipografia, cores, proporções, espaçamento, componentes, sombras, bordas, botões, cards, ícones, hierarquia e composição**.
+
+## 3. CTA fixo em todas as seções
+
+Existe uma regra importante para todas as seções:
+
+O CTA da seção deve permanecer **sempre visível, fixo e chamativo na parte inferior da viewport enquanto o usuário estiver naquela seção**.
+
+Não coloque o CTA apenas depois do conteúdo.
+
+O CTA deve ficar visualmente ancorado na região inferior da tela, sem atrapalhar a leitura do conteúdo e respeitando áreas seguras em desktop e mobile.
+
+Quando o usuário avançar para outra seção, o CTA deve acompanhar a nova seção e mudar para o CTA correspondente.
+
+Todos os CTAs principais da página devem utilizar **um único placeholder de URL compartilhado**.
+
+Crie uma variável/configuração centralizada no JavaScript ou em outro local claramente identificável, por exemplo:
+
+```js
+const CTA_URL = "COLOQUE_O_LINK_AQUI";
+```
+
+Todos os CTAs devem utilizar essa mesma URL.
+
+Assim, posteriormente será necessário alterar o link apenas uma vez.
+
+## 4. Primeira seção — Hero
+
+A primeira seção deve ser baseada na composição do wireframe fornecido, porém o visual final deve seguir integralmente a identidade visual descrita neste prompt.
+
+Headline:
+
+**O melhor sistema para o seu salão de beleza**
+
+A expressão **"salão de beleza"** deve receber destaque visual.
+
+Adicionar o texto complementar presente no wireframe/referência fornecida.
+
+CTA:
+
+**Criar minha conta grátis**
+
+Esse CTA deve utilizar `CTA_URL`.
+
+Também reproduza os elementos inferiores apresentados no wireframe, adaptando-os para o design system da Relinq Beauty.
+
+A seção deve ocupar aproximadamente toda a viewport.
+
+## 5. Segunda seção — As dores do salão
+
+Headline de destaque:
+
+**A gente sabe o que tira seu sono dentro do seu salão:**
+
+Apresente os três problemas abaixo como blocos/cards visualmente impactantes.
+
+### Sexta, 14h
+
+**A cadeira da sua profissional está vazia**
+
+A cliente não apareceu e não avisou. Aquele horário foi vendido, reservado, recusado para outra pessoa e não vai voltar. Você paga a estrutura do mesmo jeito.
+
+### Segunda, 9h
+
+**Duas clientes marcadas no mesmo horário**
+
+Você anotou no caderno, depois anotou no WhatsApp, ninguém cruzou as duas coisas. Agora tem uma cliente esperando em pé na recepção e a culpa é do salão.
+
+### Todo dia 30
+
+**Você não sabe quanto entrou**
+
+Faturamento na cabeça, comissão no papel, produto que sumiu do estoque sem explicação. Fechar o mês vira uma noite inteira de conferência e mesmo assim a conta não bate.
+
+CTA fixo da seção:
+
+**Quero solucionar isso**
+
+Utilizar `CTA_URL`.
+
+## 6. Terceira seção — O custo das faltas
+
+Headline:
+
+**A falta é prejuízo com data marcada:**
+
+Apresente visualmente esta progressão:
+
+**Serviço da cliente: R$80**
+
+**Se seu salão tem 1 falta por dia**
+
+**São R$400 por semana jogados fora**
+
+**Isso é R$1.600 por mês**
+
+**R$19.200 por ano apenas por não confirmar os agendamentos**
+
+O valor anual deve receber forte destaque visual, funcionando como o principal impacto da seção.
+
+Adicionar o CTA correspondente utilizando `CTA_URL`.
+
+### Área reservada
+
+Nesta seção deve existir uma `div` vazia, claramente identificável por uma classe e/ou ID semântico, dedicada exclusivamente a conteúdo que será inserido posteriormente.
+
+Não coloque conteúdo fictício dentro dela.
+
+Exemplo:
+
+```html
+<div id="future-content"></div>
+```
+
+O nome pode ser melhorado, mas a área deve estar claramente disponível para futura implementação.
+
+## 7. Quarta seção — Lembretes automáticos
+
+Headline:
+
+**A Relinq Beauty lembra sua cliente.**
+
+Logo abaixo:
+
+**Você atende.**
+
+Texto:
+
+Assim que um horário entra na agenda, o sistema envia mensagem: confirma na hora, lembra na véspera, avisa duas horas antes e pede a avaliação quando o atendimento termina.
+
+Depois, apresentar os quatro momentos em quadros/cards.
+
+### Na hora do agendamento
+
+**Oi Fernanda! Seu horário está confirmado: quinta, 14h, com a Camila: Hidratação.**
+
+### 24h antes
+
+**Lembrando do seu horário amanhã às 14h. Confirma pra gente respondendo SIM?**
+
+### 2h antes
+
+**Você tem horário hoje às 14h. Te esperamos!**
+
+### 1h depois
+
+**Como foi seu atendimento hoje? Sua avaliação leva 30 segundos.**
+
+Adicionar a informação:
+
+**E a nota cai direto no seu painel.**
+
+CTA fixo:
+
+**Quero solucionar isso**
+
+Utilizar `CTA_URL`.
+
+Os quadros podem ter tratamento visual semelhante a mensagens/notificações, mas devem continuar seguindo a identidade visual geral.
+
+## 8. Quinta seção — Como começar
+
+Headline:
+
+**Saia do caderno hoje.**
+
+Complemento:
+
+**Não daqui um mês**
+
+Apresente os quatro passos de forma visualmente clara.
+
+### 1. Crie sua conta
+
+Nome, e-mail e senha. Sem cartão de crédito. Seu painel já abre pronto.
+
+### 2. Cadastre serviços e equipe
+
+Serviço, duração, valor e comissão. Depois cada profissional, com o horário que trabalha.
+
+### 3. Mande seu link para as clientes
+
+No status do WhatsApp, na bio do Instagram, na resposta automática. Elas começam a marcar sozinhas na mesma hora.
+
+### 4. Deixe o sistema confirmar
+
+Os agendamentos caem na agenda, os lembretes saem sozinhos e você volta a olhar para a cliente, não para o celular.
+
+Não remover, resumir ou reescrever nenhuma dessas copys.
+
+## 9. Carrossel de depoimentos
+
+Ainda nessa seção, apresentar:
+
+**Salões que já cresceram com a Relinq Beauty:**
+
+Criar exatamente **3 cards horizontais** para os depoimentos/cases.
+
+O carrossel deve:
+
+* mostrar os cards individualmente;
+* possuir controles de navegação muito visíveis;
+* possuir botões de navegação chamativos;
+* permitir avanço manual;
+* avançar automaticamente a cada **3 segundos** quando o usuário não interagir;
+* reagir adequadamente à interação manual;
+* ser responsivo;
+* funcionar corretamente em desktop, tablet e mobile;
+* permitir swipe/touch no mobile;
+* manter a identidade visual.
+
+Não invente depoimentos ou dados de clientes caso eles não tenham sido fornecidos. Estruture os cards para que os conteúdos possam ser inseridos/editados facilmente.
+
+CTA fixo:
+
+**Quero solucionar isso**
+
+Utilizar `CTA_URL`.
+
+## 10. Última seção — Conversão e preços
+
+Headline:
+
+**Comece de graça. Suba quando o salão pedir**
+
+Texto:
+
+Sem cartão para criar a conta. Você muda de plano ou cancela pelo próprio painel, quando quiser.
+
+### Área de preços
+
+Criar um grande **quadro horizontal** visualmente destacado.
+
+Dentro desse quadro ficarão cards verticais de planos/preços.
+
+O número de cards poderá mudar futuramente, portanto o componente precisa ser flexível.
+
+Implementar como carrossel.
+
+Regras:
+
+* vários cards podem aparecer simultaneamente quando houver espaço;
+* cards que não couberem continuam acessíveis através do carrossel;
+* não colocar cards excedentes em uma segunda linha;
+* possuir setas de navegação claramente visíveis;
+* funcionar com qualquer quantidade razoável de planos;
+* ser responsivo;
+* permitir swipe no mobile;
+* adaptar a quantidade de cards visíveis conforme a largura da tela;
+* não utilizar autoplay;
+* permitir comparação confortável entre os planos;
+* deixar os dados dos planos fáceis de editar no código.
+
+Use como referência os preços atualmente apresentados na página oficial da Relinq Beauty:
+
+**Gratuito — R$ 0/mês**
+
+**Essential — R$ 19,90/mês por usuário**
+
+**Pro — R$ 39,90/mês por usuário**
+
+A página oficial também apresenta diferentes períodos de cobrança e descontos. Verifique a página oficial fornecida como referência antes de implementar os dados finais.
+
+Não espalhe valores hardcoded por vários arquivos. Centralize os dados dos planos em uma estrutura fácil de editar.
+
+CTA final também deve utilizar `CTA_URL`.
+
+## 11. Arquitetura do projeto
+
+Não concentre todo o CSS em um único arquivo gigantesco nem todo o JavaScript em um único arquivo gigante.
+
+Utilize uma estrutura modular:
+
+```text
+relinq-landing/
+│
+├── index.html
+│
+├── css/
+│   ├── reset.css
+│   ├── variables.css
+│   ├── global.css
+│   ├── components.css
+│   └── sections.css
+│
+├── js/
+│   ├── main.js
+│   ├── scroll.js
+│   ├── carousel.js
+│   └── navigation.js
+│
+└── assets/
+    ├── images/
+    ├── icons/
+    └── fonts/
+```
+
+### `index.html`
+
+Deve conter todas as seções da landing page.
+
+Referenciar corretamente todos os arquivos CSS e JS.
+
+Não utilizar espaçamentos e quebras de linha desnecessários que tornem o HTML visualmente gigantesco.
+
+O código deve ser compacto, mas continuar legível.
+
+### `variables.css`
+
+Centralizar:
+
+* cores;
+* gradientes;
+* tipografia;
+* sombras;
+* border-radius;
+* espaçamentos;
+* transições;
+* dimensões importantes.
+
+### `components.css`
+
+Centralizar componentes reutilizáveis:
+
+* botões;
+* CTAs;
+* cards;
+* pills;
+* badges;
+* setas;
+* controles de carrossel;
+* elementos de preço;
+* elementos recorrentes.
+
+### `sections.css`
+
+Centralizar os estilos específicos de cada seção.
+
+### `main.js`
+
+Ponto principal de inicialização.
+
+### `scroll.js`
+
+Responsável pelos comportamentos relacionados ao scroll e ao encaixe das seções.
+
+### `carousel.js`
+
+Criar uma implementação reutilizável para os carrosséis.
+
+De preferência, o mesmo sistema deve poder alimentar:
+
+* carrossel de depoimentos;
+* carrossel de preços.
+
+Não duplicar lógica desnecessariamente.
+
+### `navigation.js`
+
+Responsável por comportamentos de navegação adicionais que forem necessários.
+
+## 12. Tecnologias
+
+Utilizar:
+
+* HTML5;
+* CSS3;
+* JavaScript vanilla.
+
+Não utilizar React, Vue, Angular ou outro framework.
+
+Não adicionar bibliotecas desnecessárias.
+
+Se uma funcionalidade puder ser implementada de maneira simples com JavaScript/CSS nativo, prefira a solução nativa.
+
+## 13. Responsividade
+
+A landing page precisa funcionar muito bem em:
+
+* desktop;
+* notebook;
+* tablet;
+* celular.
+
+Não simplesmente reduza tudo proporcionalmente.
+
+Adapte realmente os layouts.
+
+Particularmente:
+
+* os cards devem reorganizar-se;
+* os carrosséis devem adaptar a quantidade de itens visíveis;
+* os textos devem manter boa legibilidade;
+* os CTAs fixos devem respeitar a área inferior da tela;
+* evitar que o CTA cubra conteúdo importante;
+* considerar `safe-area-inset` em dispositivos móveis;
+* preservar o efeito de seção inteira sem criar uma experiência ruim em telas pequenas.
+
+## 14. Scroll snapping
+
+A experiência principal da página deve ser baseada em seções verticais.
+
+Utilizar uma implementação robusta de CSS `scroll-snap`.
+
+Cada seção deve funcionar como uma unidade visual.
+
+Evitar scrolls intermediários desnecessários entre seções.
+
+Porém, não sacrificar usabilidade: se uma seção tiver conteúdo que realmente ultrapasse a altura disponível em dispositivos pequenos, a implementação deve lidar com isso de maneira inteligente em vez de cortar conteúdo.
+
+## 15. Animações
+
+Utilizar animações sutis e profissionais.
+
+Pode haver:
+
+* fade-in;
+* pequenos deslocamentos;
+* transições;
+* entrada de cards;
+* destaque de números;
+* microinterações nos botões;
+* transições dos carrosséis.
+
+Evitar:
+
+* animações exageradas;
+* efeitos chamativos sem propósito;
+* excesso de movimento;
+* aparência de template genérico.
+
+Respeitar `prefers-reduced-motion`.
+
+## 16. Qualidade visual
+
+Não produza uma landing page genérica.
+
+A composição deve parecer um produto real e profissional.
+
+Preste atenção especial a:
+
+* alinhamento;
+* proporção;
+* hierarquia;
+* ritmo vertical;
+* contraste;
+* consistência entre seções;
+* tamanho dos títulos;
+* peso dos números;
+* posicionamento dos CTAs;
+* equilíbrio entre conteúdo e espaço vazio;
+* coerência dos cards;
+* consistência dos cantos arredondados;
+* consistência das sombras;
+* uso correto do magenta;
+* responsividade.
+
+## 17. Código
+
+O código deve ser:
+
+* limpo;
+* modular;
+* semanticamente organizado;
+* fácil de editar;
+* sem duplicações desnecessárias;
+* sem código morto;
+* sem placeholders espalhados aleatoriamente;
+* com nomes de classes claros;
+* com responsabilidades bem separadas.
+
+Centralize informações que provavelmente serão alteradas posteriormente, principalmente:
+
+* URL dos CTAs;
+* dados dos planos;
+* conteúdos editáveis dos carrosséis.
+
+## 18. Imagens de referência que serão fornecidas
+
+Vou fornecer as seguintes imagens juntamente com este prompt:
+
+### Imagem 1
+
+Referência principal da identidade visual da Relinq Beauty.
+
+Use-a para observar:
+
+* paleta;
+* tipografia;
+* componentes;
+* cards;
+* botões;
+* arredondamentos;
+* sombras;
+* composição;
+* hierarquia;
+* linguagem visual.
+
+### Imagem 2
+
+Referência complementar da identidade visual.
+
+Use-a para observar principalmente:
+
+* organização de interfaces;
+* filtros;
+* chips;
+* calendário;
+* cards;
+* grids;
+* navegação;
+* estados selecionados;
+* componentes de agenda.
+
+### Wireframe da primeira seção
+
+Use-o **somente como referência de composição/layout da primeira seção**.
+
+O wireframe não define a identidade visual final.
+
+Não copie o estilo visual do wireframe. Reconstrua sua composição utilizando a identidade visual descrita neste prompt.
+
+## 19. Regra final sobre as referências
+
+As imagens são referências auxiliares.
+
+A descrição textual deste prompt define a identidade visual e os requisitos funcionais.
+
+Não faça engenharia reversa simplesmente copiando pixels das imagens.
+
+Crie uma implementação original que reproduza a mesma linguagem visual.
+
+## 20. Entrega
+
+Crie todos os arquivos da estrutura proposta.
+
+Certifique-se de que:
+
+1. `index.html` funciona corretamente;
+2. todos os CSS estão corretamente vinculados;
+3. todos os JS estão corretamente vinculados;
+4. os carrosséis funcionam;
+5. o autoplay de 3 segundos do carrossel de depoimentos funciona;
+6. o carrossel de preços não possui autoplay;
+7. o scroll snapping funciona;
+8. os CTAs permanecem fixos na parte inferior de cada seção;
+9. todos os CTAs utilizam a mesma `CTA_URL`;
+10. a página é responsiva;
+11. nenhuma copy fornecida neste prompt foi removida;
+12. a identidade visual é consistente em todas as seções;
+13. a área vazia da terceira seção permanece disponível para implementação futura.
+
+Antes de finalizar, revise visualmente e tecnicamente toda a página e corrija inconsistências de espaçamento, alinhamento, responsividade e comportamento dos componentes.

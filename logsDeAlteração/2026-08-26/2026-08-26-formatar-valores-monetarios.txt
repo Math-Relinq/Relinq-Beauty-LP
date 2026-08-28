@@ -1,0 +1,10 @@
+Alterações realizadas em 26/08/2026
+
+Arquivo: index.html
+- Adicionado ",00" ao final dos valores monetários estáticos da seção "Custo das faltas":
+  - "R$80" -> "R$80,00"
+  - "R$400" -> "R$400,00"
+  - "R$1.600" -> "R$1.600,00"
+  - "R$19.200" (id="totalCost") -> "R$19.200,00"
+
+Observação: os valores monetários gerados dinamicamente via JavaScript (js/main.js), como os preços dos planos (pricing-card__price) e o cálculo de custo por ano (#totalCost atualizado pelo input), já utilizam a função formatPrice() com toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }), portanto já exibem os centavos (",00" ou o valor decimal correspondente) automaticamente. Nenhuma alteração foi necessária em js/main.js.

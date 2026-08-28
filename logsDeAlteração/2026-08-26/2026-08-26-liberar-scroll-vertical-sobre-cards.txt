@@ -1,0 +1,13 @@
+Data: 2026-08-26
+
+Alteração: Deslizar o dedo verticalmente em cima dos cards (trilhas horizontais com swipe) agora rola a página normalmente, em vez de ficar "preso" sem mover a tela.
+
+Causa raiz: as trilhas horizontais tinham "touch-action: pan-x;" junto com "overscroll-behavior-y: none;". "touch-action: pan-x" diz ao navegador para só reconhecer gestos de pan no eixo horizontal dentro daquele elemento — um arrasto vertical iniciado em cima do card era simplesmente ignorado, em vez de ser repassado como rolagem da página.
+
+Arquivo: css/components.css
+- .carousel-track: trocado "touch-action: pan-x;" por "touch-action: pan-x pan-y;" (permite os dois eixos; o navegador decide dinamicamente para qual rolagem o gesto se destina, com base na direção do arrasto). Removida "overscroll-behavior-y: none;", que também restringia o encadeamento da rolagem vertical.
+
+Arquivo: css/sections.css
+- Mesmo ajuste no bloco @media (max-width: 720px) que transforma .pains__grid, .reminders__grid e .onboarding__steps em trilhas horizontais de swipe no mobile.
+
+Resultado: swipe horizontal nos cards continua funcionando com o snap normalmente; swipe vertical em cima deles agora rola a página, como esperado.

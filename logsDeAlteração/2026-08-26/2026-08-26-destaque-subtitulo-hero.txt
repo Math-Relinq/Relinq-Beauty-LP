@@ -1,0 +1,11 @@
+Alteração: Fonte maior e destaque em negrito/rosa nas palavras-chave do subtítulo do hero
+
+Arquivos alterados: index.html, css/sections.css
+
+Resumo:
+- Aumentado o tamanho da fonte do .hero__subtitle de var(--fs-md) para var(--fs-lg), tornando o texto mais chamativo.
+- Criadas 3 classes de destaque com intensidade crescente de rosa e peso de fonte:
+  - .hero__subtitle-kw--1 (magenta-500, bold): "Agenda, caixa e histórico" — menor importância, mostra a abrangência do sistema.
+  - .hero__subtitle-kw--2 (magenta-600, bold): "WhatsApp" — importância média, canal de confiança do público.
+  - .hero__subtitle-kw--3 (magenta-700, black/800): "Lembrete, confirmação e pedido de avaliação" — maior importância, lista concreta do que é automatizado.
+- Envolvidas as respectivas palavras-chave no parágrafo .hero__subtitle com spans usando essas classes.

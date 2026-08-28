@@ -1,0 +1,23 @@
+Data: 2026-08-26
+
+Alteração: Reativado o scroll-snap vertical entre seções, agora combinado com a divisão por cores alternadas (em vez de depender de altura fixa 100vh como antes).
+
+Contexto:
+- O scroll-snap havia sido desativado (ver logsDeAlteração/2026-08-26/2026-08-26-desativar-scroll-snap.txt) e, em seguida, a altura fixa de 100vh por seção também foi removida (logsDeAlteração/2026-08-26/2026-08-26-remover-altura-fixa-secoes.txt), passando cada seção a ter a altura do próprio conteúdo. A separação visual entre seções passou a ser feita por alternância de tom de fundo (logsDeAlteração/2026-08-26/2026-08-26-alternar-cores-secoes.txt).
+- Pedido agora: trazer de volta o encaixe (snap) de seção em seção, mas adaptado a esse novo cenário — sem reintroduzir a altura fixa 100vh, mantendo a alternância de cores como reforço visual do encaixe.
+
+Arquivo: css/global.css
+- .snap-container: adicionado novamente "scroll-snap-type: y mandatory;".
+- .section: adicionados novamente "scroll-snap-align: start;" e "scroll-snap-stop: always;".
+- Comentários acima de .section e .section.keyboard-adjusting atualizados para refletir que agora a seção tem altura de conteúdo (não mais 100vh fixo) MAS com scroll-snap ativo — ou seja, cada seção continua funcionando como um "degrau" de rolagem, só que sem ser forçada a caber exatamente em uma tela.
+
+Não alterado (já preparado para isso):
+- js/main.js (initCalcKeyboardAdjust): já desativava "scrollSnapType" do container durante a edição de um campo da calculadora (para o ajuste de scroll não disparar troca automática de seção) e restaurava no blur. Essa lógica estava inofensiva enquanto não havia scroll-snap-type no CSS base; agora volta a ser efetiva automaticamente, sem precisar de nenhuma mudança.
+- css/components.css / js/scroll.js (fade da cta-bar por cor de seção): continuam funcionando normalmente, pois não dependem de altura fixa nem de snap.
+
+Verificação
+- Testado com Playwright + Chromium headless, em 1440x900 (desktop) e 375x812 (mobile): scroll-snap-type computado confirmado como "y mandatory" no container, scroll-snap-align "start" em cada seção; rolagem por wheel avança seção a seção e chega corretamente até a última seção (planos) sem travar no meio; capturas de tela de todas as 6 seções nas duas larguras não mostram gaps nem sobreposição entre os blocos de cor.
+- Confirmado que o scroll-snap-type do container muda para "none" ao focar um input da calculadora (seção 3), preservando o comportamento de ajuste do teclado virtual.
+- Recomenda-se um teste manual rápido em navegador real (trackpad/mouse/touch), já que a sensação exata de "encaixe" por gesto físico não é totalmente reproduzível em automação headless.
+
+Relacionado a: logsDeAlteração/2026-08-26/2026-08-26-desativar-scroll-snap.txt, logsDeAlteração/2026-08-26/2026-08-26-remover-altura-fixa-secoes.txt, logsDeAlteração/2026-08-26/2026-08-26-alternar-cores-secoes.txt

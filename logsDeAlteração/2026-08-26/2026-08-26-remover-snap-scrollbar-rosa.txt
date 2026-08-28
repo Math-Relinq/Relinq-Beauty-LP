@@ -1,0 +1,8 @@
+Data/Hora: 2026-08-26 14:35
+
+Alteração: remoção do scroll-snap da página e adição de scrollbar customizada.
+
+- Em css/global.css, removidas as propriedades "scroll-snap-type: y mandatory" (de ".snap-container") e "scroll-snap-align: start" / "scroll-snap-stop: always" (de ".section"), voltando a rolagem vertical da página para o comportamento padrão (contínuo, sem encaixe entre seções). Os comentários que descreviam o comportamento do scroll-snap foram atualizados/removidos.
+- A barra de rolagem do ".snap-container", antes oculta ("scrollbar-width: none" + "::-webkit-scrollbar { display: none }"), agora é exibida fina e na cor rosa da marca: "scrollbar-width: thin" com "scrollbar-color: var(--magenta-300) transparent" (Firefox) e, para navegadores baseados em WebKit/Blink, "::-webkit-scrollbar" com 8px de largura, trilho transparente e "thumb" em "var(--magenta-300)" (#F484BC) com bordas arredondadas.
+- As barras de rolagem internas dos elementos ".section" continuam ocultas (mantidas apenas como salvaguarda, já que as seções não têm mais altura fixa forçando rolagem própria, exceto durante o ajuste de teclado virtual).
+- Em js/main.js (initCalcKeyboardAdjust), removida a lógica que desativava o scroll-snap do container ao focar um input da calculadora (não é mais necessária, pois o scroll-snap foi removido), junto com a variável "snapContainer" que ficou sem uso.

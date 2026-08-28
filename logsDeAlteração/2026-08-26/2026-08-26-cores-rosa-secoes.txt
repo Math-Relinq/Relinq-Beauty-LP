@@ -1,0 +1,8 @@
+Data/Hora: 2026-08-26 14:21
+
+Alteração: troca das cores de fundo alternadas entre as seções da LP.
+
+- Em css/variables.css, as variáveis "--bg-page" e "--bg-page-alt" (que alternam o fundo das seções via ".section:nth-of-type(odd/even)" em css/global.css) deixaram de ser tons de salmão e passaram a ser dois tons de rosa nitidamente rosados:
+  - "--bg-page": de "#FDF0EA" para "#FDEBF3" (rosa bem claro).
+  - "--bg-page-alt": de "#F3D9C8" para "#F7CFE4" (rosa claro, levemente mais escuro que o anterior).
+- Os respectivos pares RGB ("--bg-page-rgb" e "--bg-page-alt-rgb") foram atualizados junto, mantendo consistência com os novos hex — esses valores são usados em js/scroll.js e css/components.css para o fade da barra de CTA fixa acompanhar a cor de fundo da seção visível.

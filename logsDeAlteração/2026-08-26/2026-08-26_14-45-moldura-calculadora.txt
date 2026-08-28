@@ -1,0 +1,5 @@
+Data/Hora: 2026-08-26 14:45
+
+Alterações realizadas:
+- index.html: adicionado um selo "🧮 Calculadora do prejuízo" acima dos campos da seção de custo das faltas (#calc), texto do hint atualizado para deixar claro que os campos devem ser preenchidos, placeholders dos inputs tornados mais descritivos (unidades/período) e adicionados atributos aria-label para acessibilidade.
+- css/sections.css: adicionada uma moldura (borda, fundo levemente rosado e sombra) em volta do bloco .calc__inputs para destacar visualmente a calculadora; inputs receberam borda mais evidente, fundo branco e estado de foco (contorno rosa) para reforçar que são campos interativos; criado estilo .calc__badge para o selo de identificação da calculadora.

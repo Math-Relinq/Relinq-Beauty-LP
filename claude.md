@@ -1,0 +1,1 @@
+Ao finalizar cada alteração, salve um log resumindo tudo o que foi alterado na pasta "logsDeAlteracao. Separe em subpastas, cada subpasta deve ter o nome do dia que pertence, e dentro dela os logs respectivos a este dia. Os logs dentro da pasta com data nao precisam de data, apenas do horario e nome no formado hora:minutos usando o formato de 24hrs

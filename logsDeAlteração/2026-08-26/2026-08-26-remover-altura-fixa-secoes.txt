@@ -1,0 +1,13 @@
+Data: 2026-08-26
+
+Alteração: Removida a altura fixa de 100vh/100svh por seção, para eliminar o espaço vazio entre uma seção e a seguinte agora que o scroll-snap foi desativado.
+
+Contexto:
+- Antes, cada .section tinha "min-height: 100vh" E "max-height: 100vh" (junto com overflow-y: auto), forçando toda seção a ocupar exatamente uma tela inteira, com rolagem interna própria caso o conteúdo excedesse esse limite. Isso fazia sentido com o scroll-snap mandatório (cada seção era um "slide" de tela cheia), mas sem o snap, seções com conteúdo mais curto que a tela sobravam com espaço em branco antes da próxima seção começar.
+
+Arquivo: css/global.css
+- Removidas de .section: "min-height: 100vh/100svh", "max-height: 100vh/100svh" e "overflow-y: auto". Agora cada seção tem a altura do próprio conteúdo.
+- Ajustada .section.keyboard-adjusting para incluir "overflow-y: auto" diretamente (antes vinha herdado da regra base), já que essa classe ainda precisa de altura/rolagem internas controladas enquanto o teclado virtual mobile está aberto (ver initCalcKeyboardAdjust em js/main.js).
+- Comentário acima da regra atualizado para refletir o novo comportamento.
+
+Relacionado a: logsDeAlteração/2026-08-26/2026-08-26-desativar-scroll-snap.txt

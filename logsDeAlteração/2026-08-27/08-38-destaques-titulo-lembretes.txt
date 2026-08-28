@@ -1,0 +1,35 @@
+08:38 - Destaques em palavras-chave na seção "Lembretes"
+
+Objetivo: aplicar destaque de intensidade média e baixa nas palavras-chave,
+seguindo o mesmo padrão visual já usado no subtítulo do hero
+(.hero__subtitle-kw--*).
+
+Alterações:
+
+1. index.html (linha 139) - título da seção
+   - <h2 class="section-title">A Relinq Beauty lembra sua cliente.<br>Você atende.</h2>
+   - "lembra sua cliente" -> <span class="section-title-kw--2"> (intensidade média)
+   - "Você atende" -> <span class="section-title-kw--1"> (intensidade baixa)
+
+2. index.html (linha 140) - parágrafo intro (.reminders__intro)
+   - "o sistema envia mensagem" -> <span class="reminders__intro-kw--2"> (média)
+   - "confirma na hora", "lembra na véspera", "avisa duas horas antes",
+     "pede a avaliação" -> <span class="reminders__intro-kw--1"> (baixa)
+
+3. index.html (seção "Como comecar" / onboarding)
+   - <h2 class="section-title">Saia do caderno hoje.</h2>
+     -> "hoje" envolvido em <span class="section-title-kw--2"> (destaque médio)
+   (obs.: destaque em "um mês" foi aplicado e depois removido a pedido -
+    a sub .onboarding__head-sub ficou sem alteração)
+
+4. css/sections.css
+   - Após a linha 23 (bloco .hero__subtitle-kw--*):
+     .section-title-kw--1 { color: var(--magenta-500); }   /* baixa */
+     .section-title-kw--2 { color: var(--magenta-600); }   /* média */
+     (só cor; o peso vem de .section-title, que já usa --fw-black)
+   - Após .reminders__intro (linha 256):
+     .reminders__intro-kw--1 { font-weight: var(--fw-bold); color: var(--magenta-500); }  /* baixa */
+     .reminders__intro-kw--2 { font-weight: var(--fw-bold); color: var(--magenta-600); }  /* média */
+     (texto de corpo -> inclui bump de peso, igual ao hero__subtitle-kw)
+
+Observação: os tons de magenta 500/600 espelham os níveis baixo/médio do hero.

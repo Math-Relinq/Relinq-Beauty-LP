@@ -1,0 +1,18 @@
+Data: 2026-08-26
+
+Alteração: Fundo das seções passou a alternar entre duas tonalidades da mesma cor salmão, para separar visualmente uma seção da outra agora que não há mais scroll-snap.
+
+Arquivo: css/variables.css
+- Adicionadas as variáveis "--bg-page-alt: #F3D9C8;" e "--bg-page-alt-rgb: 243, 217, 200;", um tom mais profundo do mesmo salmão de "--bg-page" (#FDF0EA), claramente distinguível mas ainda dentro da mesma paleta.
+
+Arquivo: css/global.css
+- Removido o "background: var(--bg-page);" fixo de .section.
+- Adicionadas as regras ".section:nth-of-type(odd) { background: var(--bg-page); }" e ".section:nth-of-type(even) { background: var(--bg-page-alt); }", alternando: seção 1 = tom A, seção 2 = tom B, seção 3 = tom A, e assim por diante.
+
+Arquivo: css/components.css
+- O fade da barra de CTA fixa (.cta-bar) usava sempre "--bg-page-rgb" no gradiente. Como o fundo agora alterna, isso criaria uma "costura" visível quando a seção visível por baixo fosse do tom alternativo. Trocado para "rgba(var(--cta-fade-rgb, var(--bg-page-rgb)), ...)", com fallback para o tom padrão.
+
+Arquivo: js/scroll.js
+- Em initPersistentCta(), que já observa (via IntersectionObserver) qual seção está visível para atualizar o texto do botão de CTA, foi adicionada a função updateCtaFade(section): ela detecta se a seção visível é par/ímpar e define a variável CSS "--cta-fade-rgb" (em document.documentElement) como "var(--bg-page-rgb)" ou "var(--bg-page-alt-rgb)" de acordo, mantendo o fade da cta-bar sempre igual ao fundo da seção atual.
+
+Relacionado a: logsDeAlteração/2026-08-26/2026-08-26-desativar-scroll-snap.txt, logsDeAlteração/2026-08-26/2026-08-26-remover-altura-fixa-secoes.txt
