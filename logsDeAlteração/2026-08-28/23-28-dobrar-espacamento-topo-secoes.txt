@@ -1,0 +1,29 @@
+Alteração: dobrado o padding-top do .section__body (espaço entre a borda de cima
+da seção e o conteúdo). Único arquivo: css/global.css.
+
+- linha 89 (base/desktop):
+  padding: clamp(var(--space-8), 10vh, 88px) ...
+  -> padding: clamp(128px, 20vh, 176px) ...
+  (efetivo na maioria dos desktops: 88px -> 176px)
+
+- linha 181, @media (max-width: 720px):
+  padding-top: var(--space-8) (64px) -> 128px
+
+- linha 191, @media (max-height: 760px):
+  padding-top: var(--space-6) (32px) -> var(--space-8) (64px)
+
+- @media (max-height: 620px): não tocado.
+
+Histórico do valor (desktop): original 45px -> 88px (etapa anterior) -> 176px (agora).
+
+Prova (Chromium, sem cache), seção "DORES", viewport 1280x900:
+- ANTES (HEAD original): topo da seção -> título = 45px
+- DEPOIS: topo da seção -> título = 176px
+Prints atualizados em:
+  logsDeAlteração/2026-08-28/prints-espacamento/01-ANTES.png
+  logsDeAlteração/2026-08-28/prints-espacamento/02-DEPOIS.png
+(cada um com faixa rosa marcando a distância + painel com os números e a regra
+CSS que o navegador carregou)
+
+Lembrete: os <link> de CSS não têm ?v=; para ver no navegador, recarregar com
+Ctrl+Shift+R.

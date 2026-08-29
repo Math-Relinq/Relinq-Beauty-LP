@@ -1,0 +1,33 @@
+Contexto: o usuário descartou todas as alterações anteriores (working tree voltou
+ao commit 07d1f36). Esta é a re-aplicação LIMPA, só do espaçamento.
+
+Único arquivo alterado: css/global.css — 3 pontos, todos no padding-top do
+.section__body (espaço entre a borda de cima da seção e o conteúdo):
+
+- linha 89 (base/desktop):
+  padding: clamp(var(--space-5), 5vh, var(--space-7)) ...
+  -> padding: clamp(var(--space-8), 10vh, 88px) ...
+  (min 24->64px; alvo 5vh->10vh; máx 48->88px)
+
+- linha 180, @media (max-width: 720px):
+  padding-top: var(--space-6) (32px) -> var(--space-8) (64px)
+
+- linha 190, @media (max-height: 760px):
+  padding-top: var(--space-4) (16px) -> var(--space-6) (32px)
+
+- @media (max-height: 620px): não tocado (só mexe em gap).
+
+Nada mais foi alterado (sem cache-busting no index.html, sem mexer em config.js,
+sem mexer em sections.css).
+
+Prova (Chromium, carregamento sem cache): distância do topo da seção "DORES" até
+o <h2>, com faixa vermelha marcada no screenshot.
+- ANTES (HEAD): 41px   (prints: scratchpad/proof-ANTES.png)
+- DEPOIS:       82px    (prints: scratchpad/proof-DEPOIS.png, faixa nitidamente
+  mais grossa; 82px porque o viewport de teste tem 820px de altura; em telas mais
+  altas chega a 88px)
+
+Observação sobre "não muda no navegador": os <link> de CSS não têm ?v=, então o
+navegador tende a servir o global.css antigo do cache. Depois de editar, recarregue
+com Ctrl+Shift+R (ou F12 > Rede > "Desabilitar cache"). A alteração em si está
+correta e comprovada acima.
