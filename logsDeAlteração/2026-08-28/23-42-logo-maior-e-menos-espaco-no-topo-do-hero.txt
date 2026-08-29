@@ -1,0 +1,16 @@
+Alteração: logo do hero ligeiramente maior + menos espaço entre a logo e o topo
+da página. Único arquivo: css/sections.css.
+
+1. Menos espaço no topo do HERO (sem afetar as outras seções)
+   .hero__body ganhou padding-top próprio:
+     padding-top: clamp(var(--space-5), 4vh, var(--space-7));   /* 24 / 4vh / 48px */
+   Isso sobrescreve o padding-top grande de .section__body (clamp(128px,20vh,176px))
+   só no hero. As demais seções continuam com o espaçamento dobrado.
+   Medido: distância do topo da página até a logo caiu de ~176px para ~30px.
+
+2. Logo ligeiramente maior (.hero__title-logo usa `scale`)
+   - base (desktop):            scale 3   -> 3.4   (~96px -> ~109px)
+   - @media (max-width: 1080px): scale 2.5 -> 2.8  (~80px -> ~90px)
+   - @media (max-width: 720px):  scale 2   -> 2.3  (~64px -> ~74px)
+
+Centralização mantida (offset do centro = 0 em 1280/1000/390px).

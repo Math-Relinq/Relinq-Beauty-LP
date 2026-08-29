@@ -1,0 +1,3 @@
+- Os preços dos planos na ultima sessao, devem poder ser alterados com facilidade posteriormente, crie um arquivo "preços dos planos" na raiz, e quero que ali possa ser digitado manualmente, os valores de cada card, adicione todos os cards la, para que tudo possa ser alterado
+
+- Fazer com que as opções "mensal, trimestral, semestral e anual" apareçam todas alinhadas horizontalmente em aparelhos mobile com telas menores. Tomando MUITO cuidado para nao quebrar outras coisas nesta sessao...a rolagem do carrossel deve continuar funcionando, bem como os botoes "mensal, trimestral, semestral e anual" devem continuar alterando os cards de plano na tela. Certifique-se de nao mudar os preços tambem

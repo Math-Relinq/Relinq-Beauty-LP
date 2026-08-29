@@ -1,0 +1,25 @@
+Alteração: logo do hero (.hero__title-logo dentro de .hero__eyebrow-row)
+centralizada na página + regra responsiva de tamanho. Único arquivo: css/sections.css.
+
+1. Centralização (linha 16, regra base)
+   .hero__eyebrow-row:
+   - removido `margin-left: 20px` (era o que jogava a logo para a esquerda)
+   - adicionado `justify-content: center` e `align-self: center`
+   -> como .hero__header ocupa a largura toda (grid-area "header header") e é
+      flex-column com align-items:flex-start, o `align-self:center` no filho
+      centraliza a linha da logo horizontalmente na página.
+   Medido (offset do centro da logo em relação ao centro da página):
+   1280px -> 0px | 1000px -> 0px | 390px -> 0px  (centralizado em todas)
+
+2. Regra responsiva de tamanho (.hero__title-logo usa `scale`)
+   - base (desktop):            scale: 3    -> ~96px
+   - @media (max-width: 1080px): scale: 2.5 -> ~80px   (nova)
+   - @media (max-width: 720px):  scale: 2   -> ~64px   (nova)
+
+Prints (Chromium, sem cache), topo do hero:
+  logsDeAlteração/2026-08-28/prints-espacamento/logo-desk.png  (1280px)
+  logsDeAlteração/2026-08-28/prints-espacamento/logo-1000.png  (1000px)
+  logsDeAlteração/2026-08-28/prints-espacamento/logo-mob.png   (390px)
+Logo centralizada acima do <h1> (que já era text-align:center), sem sobrepor o título.
+
+Lembrete: <link> de CSS sem ?v= -> recarregar com Ctrl+Shift+R para ver no navegador.

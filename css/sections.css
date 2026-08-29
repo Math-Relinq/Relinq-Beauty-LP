@@ -9,12 +9,15 @@
     "content visual";
   align-items: start;
   gap: var(--space-5) var(--space-8);
+  /* o hero tem muito conteúdo (logo + título + subtítulo + mock): menos respiro
+     no topo que as demais seções, para a logo não ficar tão longe do topo da página */
+  padding-top: clamp(var(--space-5), 4vh, var(--space-7));
 }
 .hero__header { grid-area: header; display: flex; flex-direction: column; gap: var(--space-3); align-items: flex-start; }
 .hero__content { grid-area: content; align-self: center; display: flex; flex-direction: column; gap: var(--space-5); align-items: flex-start; }
 .hero__visual { grid-area: visual; align-self: center; position: relative; }
-.hero__eyebrow-row { display: flex; align-items: center; gap: var(--space-12); margin-left: 20px; margin-top: 5px;}
-.hero__title-logo { width: 32px; height: auto; flex-shrink: 0; scale: 3;}
+.hero__eyebrow-row { display: flex; align-items: center; justify-content: center; gap: var(--space-12); align-self: center; margin-top: 5px; }
+.hero__title-logo { width: 32px; height: auto; flex-shrink: 0; scale: 3.4; }
 .hero__title { align-self: stretch; text-align: center; font-size: var(--fs-2xl); font-weight: var(--fw-black); line-height: 1.1; letter-spacing: -0.02em; }
 .hero__subtitle { font-size: var(--fs-lg); color: var(--text-secondary); max-width: 46ch; }
 
@@ -307,6 +310,8 @@
   }
   .hero__content { align-self: auto; gap: var(--space-3); }
   .hero__visual { align-self: auto; max-width: 420px; margin: 0 auto; }
+  /* logo centralizada: reduz a escala junto com a viewport para não dominar o topo */
+  .hero__title-logo { scale: 2.8; }
   .pains__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .reminders__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .onboarding__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -326,6 +331,9 @@
 }
 
 @media (max-width: 720px) {
+  /* logo centralizada, menor no mobile */
+  .hero__title-logo { scale: 2.3; }
+
   /* Grades de cards viram trilhas horizontais com swipe, em vez de empilhar
      verticalmente — isso evita que a seção ultrapasse a altura da tela. */
   .pains__grid,
