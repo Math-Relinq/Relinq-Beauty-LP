@@ -1,0 +1,136 @@
+REFATORAÇÃO COMPLETA — branch "refatoracao-codigo-enxuto"
+(master permanece intocado)
+
+Objetivo: mesma landing page, pixel a pixel, com o código reescrito do zero —
+enxuto, padronizado e legível, com UM arquivo de CSS e UM de JS.
+
+===========================================================================
+ESTRUTURA
+===========================================================================
+ANTES (11 arquivos)                     DEPOIS (4 arquivos)
+  index.html                              index.html
+  css/reset.css                           css/style.css     <- os 5 CSS
+  css/variables.css                       js/app.js         <- os 5 JS
+  css/global.css                          precos-dos-planos.js (mantido)
+  css/components.css
+  css/sections.css
+  js/config.js
+  js/carousel.js
+  js/scroll.js
+  js/navigation.js
+  js/main.js
+  precos-dos-planos.js
+
+Obs.: precos-dos-planos.js foi MANTIDO separado de propósito — é o arquivo de
+configuração que você pediu para editar à mão. Todo o *código* está em app.js.
+Se preferir tudo num arquivo só, é só avisar que eu junto.
+
+===========================================================================
+PADRÕES ADOTADOS (aplicados no código inteiro)
+===========================================================================
+CSS
+  • Ordem fixa do arquivo: Reset > Tokens > Base > Layout > Componentes > Seções.
+    As media queries de cada grupo ficam no fim do próprio grupo.
+  • BEM em todo lugar: .bloco__elemento--modificador.
+  • ZERO seletor de #id (eram 2). Estilo só depende de classe.
+  • Nenhum valor "cru": cor, espaço, raio, sombra e tempo saem sempre de token.
+  • Propriedades em ordem estável: posição > display/flex > caixa > borda >
+    fundo > tipografia > efeitos.
+JS
+  • Um único IIFE com "use strict", const + arrow functions.
+  • O JS acha os elementos SÓ por data-* — nunca por id nem por classe de
+    estilo. Mexer no CSS não quebra mais o comportamento.
+  • Cada funcionalidade é uma função init* que sai calada se o elemento não
+    existir. Todas registradas num bloco único no DOMContentLoaded.
+  • Helpers $ / $$ / formatBRL no topo.
+HTML
+  • Vocabulário único de hooks: data-scroller, data-reveal(-delay),
+    data-cta-link, data-cta-label, data-scroll-next, data-carousel/track/
+    prev/next/dots, data-pricing, data-billing-toggle, data-calc-input,
+    data-cost-default/compare/loss/gain.
+
+===========================================================================
+LIXO ELIMINADO
+===========================================================================
+  • HTML: bloco .brand-mark inteiro comentado; <div id="future-content"> vazio;
+    <div class="calc__number"> que nenhum JS jamais preenchia.
+  • CSS morto: .brand-mark, .brand-mark__dot, #logo, .eyebrow, .visually-hidden,
+    .btn--secondary, .badge--brand, .stat-number, .hero__cta-row,
+    .hero__cta-note, .cost__arrow (que ainda tinha `color: var(pink)`, CSS
+    inválido), #future-content, .calc__number.
+  • Tokens sem uso: --magenta-900, --navy-800, --fw-regular, --space-9,
+    --header-height.
+  • gap: var(--space-12) no .hero__eyebrow-row — essa variável nunca existiu.
+  • .pricing-card--highlighted e .pricing-frame estavam declaradas duas vezes,
+    em arquivos diferentes, com valores conflitantes. Agora uma vez só, com o
+    valor que de fato vencia.
+  • Fundo branco + borda + sombra estavam repetidos em 4 cards; viraram uma
+    regra compartilhada.
+Resultado: 0 classe sem uso e 0 token sem uso (verificado por script).
+
+===========================================================================
+NÚMEROS
+===========================================================================
+                          ANTES     DEPOIS
+  arquivos CSS + JS          10          2
+  declarações CSS           888        775   (-13%)
+  seletores CSS             253        223   (-30)
+  linhas de código JS       496        377   (-24%)
+  seletores de #id no CSS     2          0
+  getElementById no JS        4          0
+  !important                  4          4   (só no bloco prefers-reduced-motion)
+(As linhas de CSS subiram de 908 para 956 porque agora é uma declaração por
+ linha e há comentário explicando cada decisão não óbvia — menos regras, mais
+ legível.)
+
+===========================================================================
+VERIFICAÇÃO: 89/89 CAPTURAS PIXEL A PIXEL IDÊNTICAS
+===========================================================================
+Harness próprio (Chromium via playwright-core), comparando master x branch:
+  • 11 viewports: 1440x900, 1280x900, 1100x800, 900x1000, 768x1024, 414x896,
+    390x844, 360x800, 320x640, 1280x700, 1280x640.
+  • Cada seção capturada separadamente + a barra de CTA = 89 imagens.
+  • Estados interativos (mobile 390 e desktop 1280): os 4 ciclos de cobrança,
+    a calculadora preenchida e o carrossel de depoimentos no 2º slide.
+  • Fontes do Google bloqueadas e transições congeladas para a captura ser
+    100% determinística (master x master = 89/89 idênticas; branch x branch =
+    89/89 idênticas).
+RESULTADO FINAL: 89/89 imagens IDÊNTICAS, tolerância zero.
+
+Diferenças encontradas no caminho e corrigidas (todas reais):
+  1. Transformei .cost__progression no próprio <ul> — os <li> viraram itens
+     flex e enfileiraram. Voltou a ser <div><ul>...</ul></div>.
+  2. Unifiquei .section-title-kw--* com .hero__subtitle-kw--* num .kw--N, mas
+     os do título NÃO tinham font-weight (o peso já é o do título). Corrigido
+     com `.section-title .kw--N { font-weight: inherit }`.
+  3. Reformatei texto dentro de <h1>/<p>/<button>: a quebra de linha no HTML
+     vira espaço e desloca o texto. Todo texto voltou a ficar em linha única.
+  4. Usei `transform: none` no estado revelado, onde o original tem
+     `translateY(0)` — isso troca o antialiasing do texto (camada de
+     composição). Voltou para translateY(0).
+  5. Removi `position: relative` do bloco da calculadora; sem ele o Chromium
+     muda o antialiasing da seção inteira. Restaurado e comentado.
+  6. Os dois elementos vazios removidos (#future-content e .calc__number)
+     ocupavam um `gap` cada. Compensado de forma explícita:
+     .cost__highlight { margin-bottom: var(--space-5) } e, no mobile,
+     .calc { padding-top: var(--space-2) }.
+
+===========================================================================
+VERIFICAÇÃO: COMPORTAMENTO
+===========================================================================
+Suíte funcional em 5 viewports (390, 320, 768, 1280, 1920):
+  CTAs apontando para a URL de cadastro; os 4 ciclos trocando os preços
+  (Mensal 19,90/39,90 · Trimestral 17,91/35,91 · Semestral 16,92/33,92 ·
+  Anual 15,92/31,92); carrossel de planos avançando; carrossel de depoimentos
+  com 3 dots e 1 ativo; calculadora (80 x 2 x 22 -> R$ 42.240,00/ano) e o
+  retorno ao valor padrão ao limpar um campo; rótulo da barra de CTA mudando
+  por seção; sem rolagem horizontal; sem erro de JS.
+  BRANCH: 89 ok / 6 falhas   MASTER: 89 ok / 6 falhas  -> IDÊNTICO.
+  (As 6 são comportamento pré-existente do master, não regressão.)
+
+Arquivo de preços — 5 cenários testados:
+  1. normal ....................... 19,90 / 39,90, descontos 10/15/20%
+  2. valores editados ............. refletem na hora (27,50 / 55,00, anual 30%)
+  3. arquivo com erro de sintaxe .. página segue de pé nos valores padrão
+  4. arquivo apagado .............. página segue de pé nos valores padrão
+  5. restaurado ................... volta ao normal

@@ -5,45 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Relinq Beauty — O melhor sistema para o seu salão de beleza</title>
 <meta name="description" content="Agenda, lembretes automáticos, caixa e clientes em um só lugar. Crie sua conta grátis e tire o salão do caderno hoje.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/reset.css">
-<link rel="stylesheet" href="css/variables.css">
-<link rel="stylesheet" href="css/global.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- <div class="brand-mark">
-  <span class="brand-mark__dot">
-  </span> <img src="assets\icons\logo-preta.webp" id="logo" alt="">
-</div> -->
+<!-- A página inteira rola dentro de [data-scroller], não no <body>. -->
+<main class="scroller" data-scroller>
 
-<main class="snap-container" data-snap-container>
-
-  <!-- 1. HERO -->
+  <!-- ===== 1. HERO ===================================================== -->
   <section class="section hero" id="hero" data-cta-label="Criar minha conta grátis">
     <div class="section__body hero__body">
+
       <div class="hero__header">
-        <div class="hero__eyebrow-row">
-          <img src="assets/icons/logo-preta.webp" alt="Relinq Beauty" class="hero__title-logo">
+        <div class="hero__logo-row">
+          <img class="hero__logo" src="assets/icons/logo-preta.webp" alt="Relinq Beauty">
         </div>
-        <h1 class="hero__title" data-animate data-animate-delay="1">O melhor sistema para o seu <span class="text-highlight">salão de beleza</span></h1>
+        <h1 class="hero__title" data-reveal data-reveal-delay="1">O melhor sistema para o seu <span class="text-highlight">salão de beleza</span></h1>
       </div>
+
       <div class="hero__content">
-        <p class="hero__subtitle" data-animate data-animate-delay="2">
-          <span class="hero__subtitle-kw--1">Agenda, caixa e histórico</span> das clientes num lugar só. <span class="hero__subtitle-kw--3">Lembrete, confirmação e pedido de avaliação</span> no <span class="hero__subtitle-kw--2">WhatsApp</span> sem você digitar nada. Conta criada em 5 minutos, sem cartão de crédito.
-        </p>
-        <div class="hero__trust" data-animate data-animate-delay="3">
+        <p class="hero__subtitle" data-reveal data-reveal-delay="2"><span class="kw--1">Agenda, caixa e histórico</span> das clientes num lugar só. <span class="kw--3">Lembrete, confirmação e pedido de avaliação</span> no <span class="kw--2">WhatsApp</span> sem você digitar nada. Conta criada em 5 minutos, sem cartão de crédito.</p>
+
+        <div class="hero__trust" data-reveal data-reveal-delay="3">
           <span class="hero__trust-item"><span class="hero__trust-icon">✓</span>Sem cartão de crédito</span>
           <span class="hero__trust-item"><span class="hero__trust-icon">✓</span>Configuração em minutos</span>
           <span class="hero__trust-item"><span class="hero__trust-icon">✓</span>Cancele quando quiser</span>
         </div>
-        <button type="button" class="badge badge--outline" data-scroll-next data-animate data-animate-delay="4">↓ Veja como funciona</button>
+
+        <button type="button" class="badge badge--outline" data-scroll-next data-reveal data-reveal-delay="4">↓ Veja como funciona</button>
       </div>
-      <div class="hero__visual" data-animate data-animate-delay="2">
+
+      <div class="hero__visual" data-reveal data-reveal-delay="2">
         <div class="hero__blob" aria-hidden="true"></div>
         <div class="hero-mock">
           <div class="hero-mock__header">
@@ -62,25 +58,27 @@
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- 2. DORES -->
+  <!-- ===== 2. DORES ==================================================== -->
   <section class="section pains" id="dores" data-cta-label="Quero solucionar isso">
     <div class="section__body">
-      <h2 class="section-title" data-animate>A gente sabe o que tira seu sono dentro do seu salão:</h2>
+      <h2 class="section-title" data-reveal>A gente sabe o que tira seu sono dentro do seu salão:</h2>
+
       <div class="pains__grid">
-        <article class="card pain-card" data-animate data-animate-delay="1">
+        <article class="card pain-card" data-reveal data-reveal-delay="1">
           <span class="pain-card__tag">Sexta, 14h</span>
           <h3 class="pain-card__title">A cadeira da sua profissional está vazia</h3>
           <p class="pain-card__text">Cliente faltou. Horário perdido. Cada falta sem aviso é dinheiro que sai do seu bolso.</p>
         </article>
-        <article class="card pain-card" data-animate data-animate-delay="2">
+        <article class="card pain-card" data-reveal data-reveal-delay="2">
           <span class="pain-card__tag">Segunda, 9h</span>
           <h3 class="pain-card__title">Duas clientes marcadas no mesmo horário</h3>
           <p class="pain-card__text">Caderno, WhatsApp, ninguém cruzou os dados. Resultado: cliente em pé na recepção e a culpa cai no salão.</p>
         </article>
-        <article class="card pain-card" data-animate data-animate-delay="3">
+        <article class="card pain-card" data-reveal data-reveal-delay="3">
           <span class="pain-card__tag">Todo dia 30</span>
           <h3 class="pain-card__title">Você não sabe quanto entrou</h3>
           <p class="pain-card__text">Faturamento solto, comissão no papel, estoque sumindo. Uma noite inteira conferindo, e a conta ainda não bate.</p>
@@ -89,11 +87,12 @@
     </div>
   </section>
 
-  <!-- 3. CUSTO DAS FALTAS -->
+  <!-- ===== 3. CUSTO DAS FALTAS ========================================= -->
   <section class="section cost" id="custo-das-faltas" data-cta-label="Quero solucionar isso">
-    <div class="section__body cost__content">
-      <h2 class="section-title" data-animate>A falta é prejuízo com data marcada:</h2>
-      <div class="cost__progression" data-animate data-animate-delay="1">
+    <div class="section__body cost__body">
+      <h2 class="section-title" data-reveal>A falta é prejuízo com data marcada:</h2>
+
+      <div class="cost__progression" data-reveal data-reveal-delay="1">
         <ul>
           <li>Serviço da cliente: R$80,00</li>
           <li>Se seu salão tem 1 falta por dia</li>
@@ -101,100 +100,107 @@
           <li>Isso é R$1.600,00 por mês</li>
         </ul>
       </div>
-      <div class="cost__highlight" id="costHighlight" data-animate data-animate-delay="2">
-        <div class="cost__highlight-default">
-          <span class="cost__highlight-value" id="totalCost">R$19.200,00</span>
+
+      <div class="cost__highlight" data-reveal data-reveal-delay="2">
+        <!-- Valor de exemplo; some assim que a calculadora é preenchida. -->
+        <div data-cost-default>
+          <span class="cost__highlight-value">R$19.200,00</span>
           <span class="cost__highlight-label">por ano apenas por não confirmar os agendamentos</span>
         </div>
-        <div class="cost__highlight-compare" id="costCompare" aria-hidden="true">
+
+        <div class="cost__compare" data-cost-compare aria-hidden="true">
           <div class="cost__compare-row cost__compare-row--loss">
             <span class="cost__compare-label">Sem Relinq Beauty</span>
-            <span class="cost__compare-value" id="costWithout">- R$ 0,00/ano</span>
+            <span class="cost__compare-value" data-cost-loss>- R$ 0,00/ano</span>
           </div>
           <div class="cost__compare-row cost__compare-row--gain">
             <span class="cost__compare-label">Com Relinq Beauty</span>
-            <span class="cost__compare-value" id="costWith">+ R$ 0,00/ano</span>
+            <span class="cost__compare-value" data-cost-gain>+ R$ 0,00/ano</span>
           </div>
         </div>
       </div>
-      <div id="future-content" class="future-content" aria-hidden="true"></div>
     </div>
-    <div id="calc">
-      <div class="calc__number"></div>
-      <div class="calc__inputs">
+
+    <!-- Fora do .section__body de propósito: ocupa a largura total da seção. -->
+    <div class="calc">
+      <div class="calc__box">
         <span class="calc__badge">🧮 Calculadora do prejuízo</span>
         <p class="calc__hint">Veja <strong>AGORA</strong> o quanto <strong>você</strong> está perdendo por mês. Preencha os campos abaixo:</p>
-        <input type="text" placeholder="Valor medio por serviço (R$)" inputmode="decimal" aria-label="Ticket médio (R$)">
-        <input type="text" placeholder="Faltas por dia" inputmode="decimal" aria-label="Faltas por dia">
-        <input type="text" placeholder="Dias trabalhados por mês" inputmode="decimal" aria-label="Dias trabalhados por mês">
+        <input class="calc__input" type="text" inputmode="decimal" data-calc-input placeholder="Valor medio por serviço (R$)" aria-label="Ticket médio (R$)">
+        <input class="calc__input" type="text" inputmode="decimal" data-calc-input placeholder="Faltas por dia" aria-label="Faltas por dia">
+        <input class="calc__input" type="text" inputmode="decimal" data-calc-input placeholder="Dias trabalhados por mês" aria-label="Dias trabalhados por mês">
       </div>
     </div>
   </section>
 
-  <!-- 4. LEMBRETES AUTOMÁTICOS -->
+  <!-- ===== 4. LEMBRETES AUTOMÁTICOS ==================================== -->
   <section class="section reminders" id="lembretes" data-cta-label="Quero solucionar isso">
     <div class="section__body">
       <div class="reminders__head">
-        <h2 class="section-title" data-animate>A Relinq Beauty <span class="section-title-kw--2">lembra sua cliente</span>.<br><span class="section-title-kw--1">Você atende</span>.</h2>
-        <p class="reminders__intro" data-animate data-animate-delay="1">Assim que um horário entra na agenda, <span class="reminders__intro-kw--2">o sistema envia mensagem</span>: <span class="reminders__intro-kw--1">confirma na hora</span>, <span class="reminders__intro-kw--1">lembra na véspera</span>, <span class="reminders__intro-kw--1">avisa duas horas antes</span> e <span class="reminders__intro-kw--1">pede a avaliação</span> quando o atendimento termina.</p>
+        <h2 class="section-title" data-reveal>A Relinq Beauty <span class="kw--2">lembra sua cliente</span>.<br><span class="kw--1">Você atende</span>.</h2>
+        <p class="reminders__intro" data-reveal data-reveal-delay="1">Assim que um horário entra na agenda, <span class="kw--2">o sistema envia mensagem</span>: <span class="kw--1">confirma na hora</span>, <span class="kw--1">lembra na véspera</span>, <span class="kw--1">avisa duas horas antes</span> e <span class="kw--1">pede a avaliação</span> quando o atendimento termina.</p>
       </div>
+
       <div class="reminders__grid">
-        <div class="message-card" data-animate data-animate-delay="1">
+        <div class="message-card" data-reveal data-reveal-delay="1">
           <span class="message-card__meta">Na hora do agendamento</span>
           <p class="message-card__bubble">Oi Fernanda! Confirmado: quinta, 14h, com a Camila — Hidratação.</p>
         </div>
-        <div class="message-card" data-animate data-animate-delay="2">
+        <div class="message-card" data-reveal data-reveal-delay="2">
           <span class="message-card__meta">24h antes</span>
           <p class="message-card__bubble">Lembrete: amanhã, 14h. Confirma respondendo SIM?</p>
         </div>
-        <div class="message-card" data-animate data-animate-delay="3">
+        <div class="message-card" data-reveal data-reveal-delay="3">
           <span class="message-card__meta">2h antes</span>
           <p class="message-card__bubble">Seu horário é hoje, 14h. Te esperamos!</p>
         </div>
-        <div class="message-card" data-animate data-animate-delay="4">
+        <div class="message-card" data-reveal data-reveal-delay="4">
           <span class="message-card__meta">1h depois</span>
           <p class="message-card__bubble">Como foi seu atendimento? Avaliação leva 30 segundos.</p>
         </div>
       </div>
-      <span class="reminders__footnote" data-animate>★ E a nota cai direto no seu painel.</span>
+
+      <span class="reminders__footnote" data-reveal>★ E a nota cai direto no seu painel.</span>
     </div>
   </section>
 
-  <!-- 5. COMO COMEÇAR + DEPOIMENTOS -->
+  <!-- ===== 5. COMO COMEÇAR + DEPOIMENTOS =============================== -->
   <section class="section onboarding" id="como-comecar" data-cta-label="Quero solucionar isso">
     <div class="section__body">
       <div class="onboarding__head">
-        <h2 class="section-title" data-animate>Saia do caderno <span class="section-title-kw--2">hoje</span>.</h2>
-        <span class="onboarding__head-sub" data-animate data-animate-delay="1">Não daqui um mês</span>
+        <h2 class="section-title" data-reveal>Saia do caderno <span class="kw--2">hoje</span>.</h2>
+        <span class="onboarding__head-sub" data-reveal data-reveal-delay="1">Não daqui um mês</span>
       </div>
+
       <div class="onboarding__steps">
-        <div class="step-card" data-animate data-animate-delay="1">
+        <div class="step-card" data-reveal data-reveal-delay="1">
           <span class="step-card__number">1</span>
           <h3 class="step-card__title">Crie sua conta</h3>
           <p class="step-card__text">Nome, e-mail e senha. <strong>Sem cartão de crédito</strong>. Seu painel já abre pronto.</p>
         </div>
-        <div class="step-card" data-animate data-animate-delay="2">
+        <div class="step-card" data-reveal data-reveal-delay="2">
           <span class="step-card__number">2</span>
           <h3 class="step-card__title">Cadastre serviços e equipe</h3>
           <p class="step-card__text">Serviço, duração, valor e comissão. Depois cada profissional, com o horário que trabalha.</p>
         </div>
-        <div class="step-card" data-animate data-animate-delay="3">
+        <div class="step-card" data-reveal data-reveal-delay="3">
           <span class="step-card__number">3</span>
           <h3 class="step-card__title">Mande seu link para as clientes</h3>
           <p class="step-card__text">No status do WhatsApp, na bio do Instagram, na resposta automática. Elas começam a marcar sozinhas na mesma hora.</p>
         </div>
-        <div class="step-card" data-animate data-animate-delay="4">
+        <div class="step-card" data-reveal data-reveal-delay="4">
           <span class="step-card__number">4</span>
           <h3 class="step-card__title">Deixe o sistema confirmar</h3>
           <p class="step-card__text">Os agendamentos caem na agenda, os lembretes saem sozinhos e você volta a olhar para a cliente, não para o celular.</p>
         </div>
       </div>
 
-      <div class="onboarding__testimonials" data-animate>
+      <div class="onboarding__testimonials" data-reveal>
         <h3 class="onboarding__testimonials-title">Salões que já cresceram com a Relinq Beauty:</h3>
+
         <div class="carousel testimonials-carousel" data-carousel data-autoplay="true" data-interval="3000" data-resume-delay="4000">
-          <div class="carousel-track" data-carousel-track>
-            <div class="carousel-slide">
+          <div class="carousel__track" data-track>
+            <div class="carousel__slide">
               <div class="testimonial-card">
                 <p class="testimonial-card__quote">"[Depoimento do cliente aqui — insira o texto fornecido pelo salão parceiro]"</p>
                 <div class="testimonial-card__author">
@@ -206,7 +212,7 @@
                 </div>
               </div>
             </div>
-            <div class="carousel-slide">
+            <div class="carousel__slide">
               <div class="testimonial-card">
                 <p class="testimonial-card__quote">"[Depoimento do cliente aqui — insira o texto fornecido pelo salão parceiro]"</p>
                 <div class="testimonial-card__author">
@@ -218,7 +224,7 @@
                 </div>
               </div>
             </div>
-            <div class="carousel-slide">
+            <div class="carousel__slide">
               <div class="testimonial-card">
                 <p class="testimonial-card__quote">"[Depoimento do cliente aqui — insira o texto fornecido pelo salão parceiro]"</p>
                 <div class="testimonial-card__author">
@@ -231,27 +237,30 @@
               </div>
             </div>
           </div>
-          <button type="button" class="carousel-arrow carousel-arrow--prev" data-carousel-prev aria-label="Depoimento anterior">‹</button>
-          <button type="button" class="carousel-arrow carousel-arrow--next" data-carousel-next aria-label="Próximo depoimento">›</button>
-          <div class="carousel-dots" data-carousel-dots></div>
+
+          <button type="button" class="carousel__arrow carousel__arrow--prev" data-prev aria-label="Depoimento anterior">‹</button>
+          <button type="button" class="carousel__arrow carousel__arrow--next" data-next aria-label="Próximo depoimento">›</button>
+          <div class="carousel__dots" data-dots></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 6. CONVERSÃO E PREÇOS -->
-  <section class="section pricing" id="planos" data-pricing-section data-cta-label="Criar minha conta grátis">
+  <!-- ===== 6. PLANOS =================================================== -->
+  <!-- O seletor de ciclo e os cards são montados por js/app.js. -->
+  <section class="section pricing" id="planos" data-pricing data-cta-label="Criar minha conta grátis">
     <div class="section__body">
       <div class="pricing__head">
-        <h2 class="section-title" data-animate>Comece de graça. Suba quando o salão pedir</h2>
-        <p class="section-subtitle" data-animate data-animate-delay="1">Sem cartão para criar a conta. Você muda de plano ou cancela pelo próprio painel, quando quiser.</p>
-        <div class="billing-toggle" data-billing-toggle data-animate data-animate-delay="2"></div>
+        <h2 class="section-title" data-reveal>Comece de graça. Suba quando o salão pedir</h2>
+        <p class="section-subtitle" data-reveal data-reveal-delay="1">Sem cartão para criar a conta. Você muda de plano ou cancela pelo próprio painel, quando quiser.</p>
+        <div class="billing-toggle" data-billing-toggle data-reveal data-reveal-delay="2"></div>
       </div>
-      <div class="pricing-frame" data-animate data-animate-delay="3">
+
+      <div class="pricing__frame" data-reveal data-reveal-delay="3">
         <div class="carousel pricing-carousel" data-carousel data-pricing-carousel data-autoplay="false">
-          <div class="carousel-track" data-carousel-track></div>
-          <button type="button" class="carousel-arrow carousel-arrow--prev" data-carousel-prev aria-label="Plano anterior">‹</button>
-          <button type="button" class="carousel-arrow carousel-arrow--next" data-carousel-next aria-label="Próximo plano">›</button>
+          <div class="carousel__track" data-track></div>
+          <button type="button" class="carousel__arrow carousel__arrow--prev" data-prev aria-label="Plano anterior">‹</button>
+          <button type="button" class="carousel__arrow carousel__arrow--next" data-next aria-label="Próximo plano">›</button>
         </div>
       </div>
     </div>
@@ -259,17 +268,12 @@
 
 </main>
 
-<div class="cta-bar" data-cta-bar>
-  <a href="#" data-cta-link class="btn btn--primary btn--lg" data-cta-label-target>Criar minha conta grátis</a>
+<div class="cta-bar">
+  <a class="btn btn--primary btn--lg" href="#" data-cta-link>Criar minha conta grátis</a>
 </div>
 
-<!-- Preços/descontos editáveis à mão (deve vir ANTES de js/config.js) -->
+<!-- Preços editáveis à mão. Precisa vir antes de js/app.js. -->
 <script src="precos-dos-planos.js"></script>
-<script src="js/config.js"></script>
-<script src="js/carousel.js"></script>
-<script src="js/scroll.js"></script>
-<script src="js/navigation.js"></script>
-<script src="js/main.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
-
