@@ -334,6 +334,31 @@
   /* logo centralizada, menor no mobile */
   .hero__title-logo { scale: 2.3; }
 
+  /* Ciclos de cobrança (Mensal / Trimestral / Semestral / Anual) numa ÚNICA
+     linha no mobile. Mexe só no visual do toggle — não toca no carrossel de
+     planos, na troca de cards nem nos preços. */
+  .billing-toggle {
+    display: flex;
+    flex-wrap: nowrap;
+    align-self: stretch;
+    width: 100%;
+    max-width: none;
+    gap: 3px;
+  }
+  /* rótulo em cima, selo de desconto embaixo: lado a lado não cabe em telas
+     estreitas e o "-10%" acabava invadindo a opção vizinha. */
+  .billing-toggle__option {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 6px 4px;
+    font-size: 0.72rem;
+    gap: 1px;
+  }
+  .billing-toggle__discount { font-size: 0.55rem; padding: 0 4px; }
+
   /* Grades de cards viram trilhas horizontais com swipe, em vez de empilhar
      verticalmente — isso evita que a seção ultrapasse a altura da tela. */
   .pains__grid,

@@ -1,0 +1,59 @@
+Execução do arquivo taskList (2 tarefas), feita em etapas.
+
+===========================================================================
+TAREFA 1 — Arquivo de preços editável na raiz
+===========================================================================
+Novo arquivo: precos-dos-planos.js (raiz do projeto)
+- Objeto PRECOS_DOS_PLANOS com um bloco por card:
+    gratuito  { preco, sufixo }
+    essential { preco, sufixo }
+    pro       { preco, sufixo }
+    descontos { mensal, trimestral, semestral, anual }   (em %)
+- Cabeçalho com instruções em português (usar ponto nos centavos, 0 no gratuito etc.).
+
+index.html: <script src="precos-dos-planos.js"> adicionado ANTES de js/config.js.
+
+js/config.js: passou a LER desses valores em vez de tê-los fixos.
+- Helpers _preco(plano, campo, padrao) e _desconto(ciclo, padrao) com optional
+  chaining: se o arquivo faltar, não carregar ou tiver erro de digitação, cada
+  valor cai no padrão antigo e o site continua funcionando.
+- BILLING_CYCLES[].discount e PLANS[].price/priceSuffix agora vêm dos helpers.
+- Textos, recursos e ctaLabel dos planos continuam em js/config.js (não foram
+  movidos, para o arquivo de preços ficar simples de editar).
+
+Testes:
+- Preços na tela idênticos aos de antes (Mensal R$0,00 / R$19,90 / R$39,90).
+- Editar precos-dos-planos.js (Essential 19.90 -> 27.50) refletiu na página:
+  ["R$ 0,00","R$ 27,50","R$ 39,90"]. Arquivo restaurado depois do teste.
+- Arquivo propositalmente quebrado (vírgula faltando): página segue renderizando
+  com os preços padrão ["R$ 0,00","R$ 19,90","R$ 39,90"] — fallback funciona.
+
+===========================================================================
+TAREFA 2 — Toggle Mensal/Trimestral/Semestral/Anual numa linha no mobile
+===========================================================================
+css/sections.css, dentro do @media (max-width: 720px) já existente:
+- .billing-toggle: display:flex, flex-wrap:nowrap, align-self:stretch,
+  width:100%, max-width:none, gap:3px  -> o pill ocupa a largura da coluna e as
+  4 opções ficam sempre na mesma linha.
+- .billing-toggle__option: flex:1 1 0, min-width:0, flex-direction:column,
+  justify-content:center, text-align:center, padding 6px 4px, font-size .72rem,
+  gap 1px -> rótulo em cima e selo de desconto embaixo. Lado a lado o "-10%" não
+  cabia em telas <=390px e invadia a opção vizinha.
+- .billing-toggle__discount: font-size .55rem, padding 0 4px.
+Nenhuma outra regra foi tocada (carrossel, cards, preços, depoimentos).
+
+Testes automatizados (Chromium, servidor local): 60 asserts, 0 falhas.
+- Larguras 320/360/375/390/414/480/600/720: 4 opções numa única linha, texto sem
+  transbordar o botão, botões contidos no pill, sem scroll horizontal, 0 erro JS.
+- Lógica (390px): clicar Trimestral/Semestral/Anual/Mensal -> sempre 3 cards, o
+  botão certo fica ativo e os preços batem exatamente com o esperado:
+    Mensal     R$0,00 | R$19,90 | R$39,90
+    Trimestral R$0,00 | para R$17,91 | para R$35,91
+    Semestral  R$0,00 | para R$16,92 | para R$33,92
+    Anual      R$0,00 | para R$15,92 | para R$31,92
+- Carrossel de planos continua rolável e a seta "próximo" avança (0 -> 324px).
+- Carrossel de depoimentos intacto (3 slides).
+- Desktop 1280px: selos -10/-15/-20% visíveis, toggle numa linha, preços
+  intactos, badge "Mais popular" presente.
+
+Lembrete: os <link>/<script> não têm ?v= — recarregar com Ctrl+Shift+R.
