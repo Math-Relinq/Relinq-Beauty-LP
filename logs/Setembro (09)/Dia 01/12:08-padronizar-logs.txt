@@ -1,0 +1,53 @@
+Padronizacao dos logs conforme o novo CLAUDE.md
+===============================================
+
+Regra 5 do CLAUDE.md: logs em `logs/DD-MM-AAAA/`, arquivo nomeado
+com o horario `HH:MM` (24h) + resumo curto do que foi alterado.
+
+Alteracoes
+----------
+1. Pasta `logsDeAlteracao/` -> `logs/` (git mv).
+
+2. Arquivos renomeados para `HH:MM-descricao-curta.txt` (dois-pontos no
+   horario). Arquivos antigos sem horario conhecido ficaram so com a
+   descricao curta. Nomes encurtados para 2-3 palavras.
+
+3. Subpastas por dia mudadas de `AAAA-MM-DD` para `DD-MM-AAAA` e
+   CLAUDE.md (regra 5) atualizado para o mesmo formato.
+
+   26-08-2026/
+     14:30-clarear-cores.txt
+     14:45-moldura-calculadora.txt
+     15:05-comparativo-calculadora.txt
+     17:05-correcoes-calculadora.txt
+     alternar-cores.txt
+     centralizar-hero.txt
+     cores-rosa.txt
+     desativar-scroll-snap.txt
+     destaque-subtitulo.txt
+     formatar-valores.txt
+     liberar-scroll-vertical.txt
+     reativar-scroll-snap.txt
+     remover-altura-fixa.txt
+     remover-snap-scrollbar.txt
+     scroll-responsividade.txt
+   27-08-2026/
+     08:38-destaques-titulo.txt
+     organizar-logs.txt
+   28-08-2026/
+     13:31-respiro-secoes-cores.txt
+     23:19-respiro-topo-secoes.txt
+     23:28-dobrar-espacamento-topo.txt
+     23:37-centralizar-logo-hero.txt
+     23:42-logo-maior-hero.txt
+     23:59-precos-editaveis-toggle-mobile.txt
+     prints/  (era prints-espacamento/)
+   29-08-2026/
+     01:09-refatoracao-css-js.txt
+
+Verificacao
+-----------
+- Todas as renomeacoes via `git mv` (historico preservado).
+- Nenhum arquivo de codigo/HTML referencia a pasta ou os nomes antigos.
+- Alteracao so de estrutura de arquivos de log; nada visual/codigo tocado,
+  sem impacto de responsividade.

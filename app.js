@@ -457,8 +457,12 @@
 
       if (showingResult) return;
       setResultVisible(true);
-      input.blur();
-      afterKeyboardCloses(() => highlight.scrollIntoView({ behavior: "smooth", block: "center" }));
+      // Só tira o foco (fecha o teclado) na hora de rolar, para não
+      // interromper quem ainda está digitando.
+      setTimeout(() => {
+        input.blur();
+        afterKeyboardCloses(() => highlight.scrollIntoView({ behavior: "smooth", block: "center" }));
+      }, 700);
     };
 
     inputs.forEach((input) => input.addEventListener("input", () => onInput(input)));

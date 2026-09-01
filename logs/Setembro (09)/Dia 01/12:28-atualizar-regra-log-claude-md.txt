@@ -1,0 +1,23 @@
+Atualizacao da regra de log no CLAUDE.md
+========================================
+
+Alteracao
+---------
+Regra 5 (renumerada para 4) do CLAUDE.md reescrita para descrever a
+estrutura de logs aprovada:
+
+  logs/<Mes (NN)>/Dia <DD>/HH:MM-descricao-curta.txt
+
+- Mes por extenso em portugues, inicial maiuscula, numero entre
+  parenteses. Ex.: `Agosto (08)`.
+- Pasta do dia com prefixo `Dia ` + numero. Ex.: `Dia 26`.
+- Arquivo: hora 24h + descricao enxuta em kebab-case.
+- Exemplo citado na regra: logs/Agosto (08)/Dia 26/14:30-clarear-cores.txt
+
+Tambem corrigida a numeracao da lista (estava 1,2,3,5 -> agora 1,2,3,4)
+e adicionada quebra de linha final no arquivo.
+
+Verificacao
+-----------
+- CLAUDE.md e a arvore de `logs/` agora descrevem o mesmo padrao.
+- Alteracao so de documentacao/estrutura de logs; nada de codigo/visual.

@@ -1,0 +1,36 @@
+Suavizar o degradê do blur na base da página (CTA persistente)
+==============================================================
+
+Contexto
+--------
+A barra de CTA fixa (.cta-bar) aplicava backdrop-filter: blur(6px) em toda a
+caixa e um degradê de fundo com apenas 2 paradas (sólido 0.98 até 55%, depois
+transparente). Isso criava:
+  - uma linha dura no topo, onde o blur começava de repente;
+  - uma transição de opacidade abrupta no meio do degradê.
+
+Alteração (style.css, .cta-bar)
+-------------------------------
+- .cta-bar agora tem background: transparent e isolation: isolate.
+- O degradê + blur foram movidos para .cta-bar::before:
+    * position: absolute; inset: -40px 0 0 0  -> o pseudo-elemento sobe 40px
+      acima da barra, dando espaço para a transição respirar;
+    * z-index: -1 + pointer-events: none -> fica atrás do botão, sem capturar
+      cliques; o botão continua nítido por não ser mascarado;
+    * degradê de fundo com 4 paradas (0.98 / 0.82 / 0.45 / 0) em 28% / 52% /
+      74% / 100%, rampa bem mais suave;
+    * backdrop-filter: blur(6px) (+ -webkit-) mantido;
+    * mask-image: linear-gradient(0deg, #000 42%, transparent 100%) -> dissolve
+      o próprio blur de baixo para cima, eliminando a linha dura no topo.
+- A variável --cta-fade-rgb (trocada pelo JS conforme a seção visível) segue
+  funcionando igual.
+
+Testes
+------
+Prints em desktop (1440x900) e mobile (390x844), com a página rolada para o CTA
+ficar sobre o conteúdo:
+  - transição do blur/tinta agora é gradual, sem costura no topo;
+  - botão permanece nítido e clicável;
+  - degradê cobre toda a largura; base opaca o suficiente para o botão continuar
+    legível;
+  - layout das demais seções inalterado.

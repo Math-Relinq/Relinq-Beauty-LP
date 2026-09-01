@@ -1,0 +1,33 @@
+Nova estrutura de pastas dos logs
+=================================
+
+Solicitado: `logs > mes > dia > logs do dia`.
+Pasta do mes: nome por extenso em portugues, primeira letra maiuscula,
+seguido do numero do mes entre parenteses. Ex.: `Agosto (08)`.
+Pasta do dia: prefixo `Dia ` + numero. Ex.: `Dia 26`.
+
+Alteracao
+---------
+Estrutura antiga: `logs/DD-MM-AAAA/<arquivos>`
+Estrutura nova:   `logs/<Mes (NN)>/Dia <NN>/<arquivos>`
+
+Movimentacoes (git mv, historico preservado):
+  logs/26-08-2026/  -> logs/Agosto (08)/Dia 26/
+  logs/27-08-2026/  -> logs/Agosto (08)/Dia 27/
+  logs/28-08-2026/  -> logs/Agosto (08)/Dia 28/   (inclui prints/)
+  logs/29-08-2026/  -> logs/Agosto (08)/Dia 29/
+  logs/01-09-2026/  -> logs/Setembro (09)/Dia 01/
+
+Nomes de arquivo mantidos: `HH:MM-descricao-curta.txt`.
+Pasta do mes sem ano (conforme o padrao pedido).
+
+Pendente de aprovacao
+---------------------
+Se aprovado, atualizar a regra 5 do CLAUDE.md para descrever esta
+estrutura (`logs/<Mes (NN)>/Dia <NN>/HH:MM-...`), para manter consistencia
+entre projetos.
+
+Verificacao
+-----------
+- Nenhum arquivo de codigo/HTML referencia a pasta de logs.
+- Alteracao so de estrutura de arquivos de log; nada visual/codigo tocado.
