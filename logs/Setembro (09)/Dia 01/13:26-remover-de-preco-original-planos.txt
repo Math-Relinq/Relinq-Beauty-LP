@@ -1,0 +1,31 @@
+Remover o "de" do preco original riscado nos cards de plano
+==========================================================
+
+Alteracao (app.js)
+------------------
+planCardHTML(): no span .pricing-card__price-original, o texto
+"de R$ X,XX" passou a ser "R$ X,XX". Apenas a palavra "de " foi
+removida; o valor e o risco (line-through, via CSS) permanecem.
+
+Antes:  <span class="pricing-card__price-original">de R$ ${formatBRL(plan.price)}</span>
+Depois: <span class="pricing-card__price-original">R$ ${formatBRL(plan.price)}</span>
+
+Nada mais foi tocado (o "para" no preco final continua igual).
+
+Ajuste de layout (style.css)
+---------------------------
+.pricing-card__price-original ganhou flex-basis: 100%. Sem "de" o
+texto ficou mais curto e, no flex-wrap do .pricing-card__price-row,
+passava a caber na mesma linha do preco final em algumas larguras.
+O flex-basis: 100% forca o numero riscado a ocupar a linha inteira,
+mantendo-o EM CIMA do preco com o valor aplicado, como ja era.
+
+Testes
+------
+Playwright (chromium), ciclo Anual -20%, mobile 390 / tablet 768 /
+desktop 1440:
+- .pricing-card__price-original retorna ["R$ 24,90","R$ 49,90"]
+  (sem "de"), com risco no meio.
+- Geometria: origBottom <= priceTop e origLeft == priceLeft nas 3
+  larguras -> riscado empilhado logo acima do preco final, alinhado
+  a esquerda. Layout inalterado no restante.

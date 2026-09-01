@@ -1,0 +1,28 @@
+Reset do carrossel de planos ao trocar o ciclo de pagamento
+==========================================================
+
+Contexto
+--------
+Ao selecionar outro tempo de pagamento (Mensal, Trimestral, Semestral,
+Anual), o carrossel de planos continuava exibindo o card em que o
+usuario havia parado. O esperado e voltar sempre para o primeiro card
+(plano mais barato) a cada troca de ciclo.
+
+Alteracoes (app.js)
+-------------------
+1. Classe Carousel: novo metodo reset() que rola o track para
+   left: 0 com behavior "instant" (sem animacao, driblando o
+   scroll-behavior: smooth do CSS) e chama updateControls() para
+   repintar os dots/setas.
+2. initPricing(): apos render() no listener de troca de ciclo do
+   billing-toggle, chama carousel.reset().
+
+Testes
+------
+Playwright (chromium) servindo o site estatico, em 3 resolucoes:
+- mobile 390x844:  scroll ate o ultimo card (scrollLeft=648=maxScroll);
+  ao trocar para Trimestral -> scrollLeft volta a 0 (card "Gratuito").
+- tablet 768x1024: idem, scrollLeft 325 -> 0.
+- desktop 1440x900: 3 cards visiveis (maxScroll=0), reset e no-op,
+  layout inalterado.
+Sem erros no console em nenhuma resolucao.

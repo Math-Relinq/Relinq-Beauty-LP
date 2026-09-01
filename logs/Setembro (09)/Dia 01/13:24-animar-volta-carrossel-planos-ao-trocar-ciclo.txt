@@ -1,0 +1,34 @@
+Animar a volta do carrossel de planos ao trocar o ciclo de pagamento
+===================================================================
+
+Contexto
+--------
+Continuacao do ajuste das 13:19. Antes o carrossel voltava para o
+primeiro card "seco" (behavior instant). Pedido: mostrar a animacao do
+card rolando ate o inicio quando a pessoa clica em outro ciclo.
+
+Alteracoes (app.js)
+-------------------
+1. Classe Carousel: metodo reset() substituido por scrollToStart(done).
+   - Se ja esta no inicio (scrollLeft <= 2), chama done() de imediato.
+   - Senao, faz scrollTo(0) suave (behavior smooth, herdado do CSS),
+     escuta o evento "scrollend" e, quando a rolagem para, chama
+     updateControls() + done(). Timeout de 500ms como fallback para
+     browsers sem "scrollend". Guarda "finished" evita chamada dupla.
+2. initPricing(): no listener do billing-toggle, em vez de render()
+   seguido de reset(), agora atualiza so o seletor de ciclo na hora e
+   passa render como callback de carousel.scrollToStart(). Assim os
+   cards so trocam de conteudo depois que a animacao de volta termina,
+   deixando a rolagem visivel com os cards antigos.
+
+Testes
+------
+Playwright (chromium), site estatico, 3 resolucoes, capturando frame
+no meio da animacao (mid) e no fim (after):
+- mobile 390x844:  before=648/648  mid=324  after=0  (rola suave ate o
+  primeiro card "Gratuito")
+- tablet 768x1024: before=325/325  mid=83   after=0
+- desktop 1440x900: before=0/0  mid=0  after=0 (3 cards visiveis,
+  scrollToStart e no-op, layout inalterado)
+Sem erros de console. Screenshot mid confirma os cards antigos rolando
+com o toggle ja marcando o novo ciclo.

@@ -213,6 +213,28 @@
 
     scrollTo(left) { this.track.scrollTo({ left, behavior: "smooth" }); }
 
+    /** Rola suavemente até o primeiro slide e chama `done` quando a animação
+     *  termina (ou de imediato, se já estivermos no início). Usado quando os
+     *  cards vão ser re-renderizados. */
+    scrollToStart(done) {
+      if (this.track.scrollLeft <= 2) return void done?.();
+
+      let finished = false;
+      const finish = () => {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timer);
+        this.track.removeEventListener("scrollend", finish);
+        this.updateControls();
+        done?.();
+      };
+      // "scrollend" resolve assim que a rolagem para; o timeout é o plano B
+      // para browsers que ainda não disparam esse evento.
+      const timer = setTimeout(finish, 500);
+      this.track.addEventListener("scrollend", finish);
+      this.scrollTo(0);
+    }
+
     scrollToIndex(index) {
       const clamped = Math.min(Math.max(index, 0), this.slides.length - 1);
       this.scrollTo(clamped * this.step);
@@ -381,7 +403,7 @@
           ${plan.badge ? `<span class="badge badge--dark pricing-card__badge">${plan.badge}</span>` : ""}
           <div class="pricing-card__name">${plan.name}</div>
           <div class="pricing-card__price-row">
-            ${hasDiscount ? `<span class="pricing-card__price-original">de R$ ${formatBRL(plan.price)}</span>` : ""}
+            ${hasDiscount ? `<span class="pricing-card__price-original">R$ ${formatBRL(plan.price)}</span>` : ""}
             <span class="pricing-card__price">${hasDiscount ? "para " : ""}R$ ${formatBRL(finalPrice)}</span>
             <span class="pricing-card__price-suffix">${plan.priceSuffix}</span>
           </div>
@@ -415,7 +437,10 @@
       const id = e.target.closest("[data-cycle]")?.dataset.cycle;
       if (!id || id === activeId) return;
       activeId = id;
-      render();
+      // Marca o novo ciclo já; os cards só trocam depois que o carrossel
+      // termina de rolar de volta para o primeiro plano.
+      toggle.innerHTML = BILLING_CYCLES.map((c) => billingOptionHTML(c, c.id === activeId)).join("");
+      carousel.scrollToStart(render);
     });
 
     render();

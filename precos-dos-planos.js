@@ -22,13 +22,13 @@ const PRECOS_DOS_PLANOS = {
 
   // ---------- Card 2: ESSENTIAL ----------
   essential: {
-    preco: 19.90,
+    preco: 24.90,
     sufixo: "/mês por usuário",
   },
 
   // ---------- Card 3: PRO ----------
   pro: {
-    preco: 39.90,
+    preco: 49.90,
     sufixo: "/mês por usuário",
   },
 
