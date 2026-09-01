@@ -1,0 +1,44 @@
+Baloezinhos de WhatsApp nos cards da secao Lembretes
+===================================================
+
+Problema
+--------
+Nos cards de .reminders__grid as mensagens estavam "tortas":
+- .message-card__meta era um rotulo de largura total; no 1o card
+  "Na hora do agendamento" quebrava em 2 linhas e empurrava so aquele
+  balao para baixo -> os 4 baloes comecavam em alturas diferentes.
+- O "balao" era so um retangulo cinza de largura total, sem cara de
+  mensagem.
+
+Alteracoes
+----------
+index.html (secao #lembretes)
+- Cada .message-card__bubble agora tem:
+  <span class="message-card__text"> com o texto da mensagem
+  <span class="message-card__time"> com horario + <i class="message-card__ticks">
+  (tiques duplos de leitura). Horarios: 09:41 / 18:00 / 12:00 / 15:32.
+
+style.css (.message-card e filhos)
+- .message-card: padding var(--space-4), justify-content flex-start.
+- .message-card__meta: virou "tarja de data" estilo WhatsApp -
+  pill cinza (var(--gray-100)) centralizada (align-self: center),
+  uppercase 0.66rem, white-space: nowrap (nunca quebra -> todos os
+  baloes alinhados na mesma altura).
+- .message-card__bubble: balao de mensagem enviada -
+  align-self: flex-end, max-width 92%, border-radius 14px com canto
+  sup. direito 4px, box-shadow sm, rabinho via ::after (border-top +
+  border-right transparente). Cor do balao num --bubble-bg local
+  (compartilhado com o ::after): tom de pele sutil #F4E6D8
+  (bege quente). [era verde #dcf8d0 na 1a versao]
+- .message-card__text: display block.
+- .message-card__time: linha a direita, 0.6rem, cinza.
+- .message-card__ticks: "✓✓" azul #34b7f1, letter-spacing -3px.
+
+Testes (Playwright / chromium)
+------------------------------
+Screenshots da secao #lembretes em 390, 768, 1100 e 1440:
+- 390: trilha horizontal com swipe, 1 balao por card, tarja numa linha.
+- 768: grade 2 colunas.
+- 1100 / 1440: grade 4 colunas.
+Em todas as larguras os 4 baloes comecam na mesma altura, verdes, com
+rabinho, horario e tiques. Nenhuma outra secao foi tocada.

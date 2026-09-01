@@ -1,0 +1,43 @@
+Bloco de confiança do hero acima do blur do showcase
+===================================================
+
+Contexto
+--------
+O botão .badge--outline[data-scroll-next] ("↓ Veja como funciona") foi
+removido do .hero__content (index.html). Ele era o último item do bloco e
+tinha regra própria (position:relative; z-index:1) para não sumir sob o
+blur rosa do .hero__showcase::before.
+
+Problema
+--------
+Sem o botão, a última linha do .hero__trust ("Cancele quando quiser")
+passou a ser o elemento mais baixo do .hero__content e ficava lavada /
+semitransparente sob a mancha desfocada do .hero__showcase (que é
+position:relative + transform do [data-reveal] -> cria contexto de
+empilhamento e pinta por cima do .hero__content, que vem antes no DOM e
+não era posicionado). Visível em ~1200-1440px.
+
+Alteração
+---------
+style.css — a regra órfã
+
+  .hero__content [data-scroll-next] { position: relative; z-index: 1; }
+
+foi removida e o position:relative + z-index:1 foi movido para o próprio
+seletor .hero__content (mesclado na regra já existente, sem seletor
+duplicado). Assim o bloco de texto inteiro fica acima do showcase e do
+blur. Nenhuma outra propriedade mudou.
+
+Verificação (Playwright/Chromium, deviceScaleFactor 2)
+-----------------------------------------------------
+Prints antes/depois em 1440, 1280, 1200, 1080, 768 e 390px.
+- 1440 / 1280: antes "Cancele quando quiser" cinza-lavado sob o blur;
+  depois nítido, cor cheia, blur atrás.
+- 1080 (breakpoint) / 768 / 390: coluna única, showcase bem abaixo do
+  conteúdo, sem sobreposição — sem regressão, layout idêntico.
+
+Observação
+----------
+Ficaram inertes (não removidos, fora do escopo): initScrollCue() em
+app.js e a regra [data-scroll-next] { display:none } em max-height:620px
+— sem efeito, já que não há mais elemento [data-scroll-next] no DOM.

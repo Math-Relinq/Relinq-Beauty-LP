@@ -1,0 +1,35 @@
+Botão "↓ Veja como funciona" acima do blur do showcase
+======================================================
+
+Problema
+--------
+No hero, o botão .badge--outline[data-scroll-next] ("↓ Veja como funciona")
+ficava lavado/escondido: o .hero__showcase é position: relative e ganha
+transform permanente do [data-reveal] (translateY(0) no estado visível), o que
+cria contexto de empilhamento e faz o bloco — junto com a mancha desfocada
+.hero__showcase::before — pintar POR CIMA do .hero__content, que vem antes no
+DOM mas não é posicionado. Resultado: o botão aparecia semitransparente sob o
+blur rosa (mais visível em telas ~1200-1440px, onde showcase e conteúdo ficam
+próximos).
+
+Alteração
+---------
+style.css — nova regra logo após .hero__visual:
+
+  .hero__content [data-scroll-next] {
+    position: relative;
+    z-index: 1;
+  }
+
+Sobe o botão na pilha para ficar acima do showcase e do seu blur. Sem mudança
+de aparência do botão (segue pill transparente com contorno).
+
+Verificação
+-----------
+Prints antes/depois com Playwright/Chromium em 1280, 1080, 768, 390 e 360px.
+- 1280: antes o botão ~40% opaco sob o blur; depois nítido, contorno e texto
+  cheios, blur atrás.
+- 390/360: sem regressão (nesses tamanhos o botão já não era sobreposto).
+- [data-scroll-next] continua com display:none em max-height:620px (a nova
+  regra só mexe em position/z-index).
+Nada além do botão mudou no hero.

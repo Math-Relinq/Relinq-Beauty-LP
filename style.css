@@ -448,33 +448,72 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   transform: scale(1.25);
 }
 
-/* -- Card de mensagem (seção Lembretes) ---------------------------------- */
+/* -- Card de mensagem (seção Lembretes) ----------------------------------
+   Mini janela de conversa: uma "tarja de data" centralizada no topo e a
+   mensagem num balão de WhatsApp (enviado — verdinho, alinhado à direita,
+   com rabinho e horário + tiques de leitura). */
 .message-card {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
   gap: var(--space-3);
-  padding: var(--space-5);
+  padding: var(--space-4);
   border-radius: var(--radius-md);
 }
 .message-card__meta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--fs-xs);
+  align-self: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--gray-100);
+  font-size: 0.66rem;
   font-weight: var(--fw-semibold);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--magenta-600);
+  color: var(--gray-500);
+  white-space: nowrap;
 }
 .message-card__bubble {
-  padding: var(--space-4);
-  border-radius: var(--radius-sm);
-  border-top-left-radius: 4px;
-  background: var(--gray-50);
+  /* tom de pele sutil (bege quente), compartilhado com o rabinho ::after */
+  --bubble-bg: #F4E6D8;
+  position: relative;
+  align-self: flex-end;
+  max-width: 92%;
+  padding: 7px 10px 5px;
+  border-radius: 14px;
+  border-top-right-radius: 4px;
+  background: var(--bubble-bg);
+  box-shadow: var(--shadow-sm);
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--text-primary);
+}
+.message-card__bubble::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -7px;
+  border-top: 8px solid var(--bubble-bg);
+  border-right: 8px solid transparent;
+}
+.message-card__text { display: block; }
+.message-card__time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  margin-top: 2px;
+  font-size: 0.6rem;
+  font-weight: var(--fw-medium);
+  color: var(--gray-500);
+}
+.message-card__ticks {
+  font-style: normal;
+  font-size: 0.72rem;
+  letter-spacing: -3px;
+  padding-right: 2px;
+  color: #34b7f1;
 }
 
 /* -- Card de passo (seção Como começar) ---------------------------------- */
@@ -681,6 +720,13 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-5);
+  /* O .hero__showcase é posicionado e cria contexto de empilhamento (transform
+     do data-reveal), então ele e sua mancha desfocada (::before) pintam por cima
+     do .hero__content, que vem antes no DOM mas não é posicionado — a última
+     linha do bloco de confiança ("Cancele quando quiser") sumia lavada sob o
+     blur rosa. Posicionar e subir o bloco na pilha mantém o texto nítido. */
+  position: relative;
+  z-index: 1;
 }
 .hero__visual {
   grid-area: visual;
