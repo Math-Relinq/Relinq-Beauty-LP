@@ -298,17 +298,6 @@
     });
   };
 
-  /** Botão "↓ Veja como funciona": rola até a próxima seção. */
-  const initScrollCue = () => {
-    $$("[data-scroll-next]").forEach((cue) => {
-      cue.addEventListener("click", () => {
-        const section = cue.closest(".section");
-        const next = section?.nextElementSibling;
-        next && section.parentElement.scrollTo({ top: next.offsetTop, behavior: "smooth" });
-      });
-    });
-  };
-
   /** Revela cada elemento [data-reveal] quando ele entra na tela (uma vez só). */
   const initReveal = () => {
     const targets = $$("[data-reveal]");
@@ -541,7 +530,6 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     initCtaLinks();
-    initScrollCue();
     initReveal();
     initKeyboardNav();
     initStickyCta();

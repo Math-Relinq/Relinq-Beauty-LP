@@ -1,0 +1,38 @@
+Limpeza de código órfão (arquivos, classes e funções sem uso)
+=============================================================
+
+Contexto: varredura cruzando seletores/atributos do CSS e JS contra o que o
+index.html realmente usa (e contra o HTML gerado dinamicamente em app.js).
+
+Removido
+--------
+app.js
+  - Função initScrollCue() e sua chamada no DOMContentLoaded.
+    Procurava [data-scroll-next] (botão "Veja como funciona"), que não existe
+    mais em nenhuma seção desde o enxugamento do hero. Nenhum efeito na página.
+
+style.css
+  - .hero__showcase-tag { ... }  -> a moldura do showcase do hero só tem
+    frame/bar/dot/img; nunca houve elemento com essa classe.
+  - .badge--outline { ... }      -> o JS só emite "badge badge--dark"; a
+    variante outline nunca foi usada.
+  - [data-scroll-next] { display: none; } dentro de @media (max-height: 620px)
+    -> par do initScrollCue removido; o bloco fica só com .hero__visual.
+
+Verificado
+----------
+  - grep confirma zero referências residuais a scroll-next / showcase-tag /
+    badge--outline / initScrollCue.
+  - node -c app.js e node -c precos-dos-planos.js: sintaxe OK.
+  - Nova varredura de classes órfãs: só restam falsos positivos montados por
+    template string no app.js (billing-toggle__option, pricing-card,
+    pricing-card__feature) e data-cycle (setado/lido via dataset).
+  - Nenhum token CSS (--*) órfão.
+  - Sem impacto visual: todo o código removido não tinha elemento/uso
+    correspondente.
+
+Nao mexido (a decidir com o time)
+---------------------------------
+  - assets/Referencia base/ (img1.png, img2.png, Link do site oficial.txt,
+    prompt.txt): material de referência de design, não usado pelo site.
+    Mantido por ser conteúdo intencional, não código morto.

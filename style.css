@@ -378,8 +378,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
 }
-.badge--dark    { background: var(--navy-900); color: var(--white); }
-.badge--outline { border: 1px solid var(--gray-300); color: var(--text-secondary); }
+.badge--dark { background: var(--navy-900); color: var(--white); }
 
 /* -- Carrossel -----------------------------------------------------------
    Rolagem nativa com scroll-snap; o JS só move o scrollLeft e pinta os dots. */
@@ -816,14 +815,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   filter: blur(32px);
   border-radius: var(--radius-lg);
 }
-.hero__showcase-tag {
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  color: var(--magenta-700);
-  background: var(--magenta-100);
-  padding: 6px var(--space-4);
-  border-radius: var(--radius-pill);
-}
 .hero__showcase-frame {
   width: 100%;
   overflow: hidden;
@@ -1207,7 +1198,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   .hero-mock__rows   { padding: 0 var(--space-4) var(--space-4); }
 }
 @media (max-height: 620px) {
-  [data-scroll-next] { display: none; }
   .hero__visual { max-width: 340px; }
 }
 
@@ -1282,6 +1272,12 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   .calc { flex-direction: column; padding-top: var(--space-2); }
 
   .pricing-carousel .carousel__slide { width: 100%; }
+
+  /* No mobile as setas do carrossel de depoimentos ficam sobre as bordas do
+     card (left/right: 2px, 40px de diâmetro). Com depoimento real — texto mais
+     longo que o placeholder — elas cobriam palavras; recuar o conteúdo do card
+     as deixa livres. */
+  .testimonials-carousel .testimonial-card { padding-inline: var(--space-7); }
 }
 
 /* Telas baixas: a seção de planos é a mais densa — comprime mais ainda para

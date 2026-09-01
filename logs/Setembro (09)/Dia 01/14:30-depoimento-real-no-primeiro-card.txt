@@ -1,0 +1,30 @@
+Depoimento real no 1º card do carrossel de depoimentos
+=====================================================
+
+Alteração
+---------
+index.html (#onboarding, .testimonials-carousel, 1º .carousel__slide)
+- Placeholder trocado pelo depoimento fornecido:
+  "Estou amando o sistema da Relinq Beauty! Ele mudou completamente a
+   forma como organizo meus atendimentos. Recomendo demais para todas as
+   minhas amigas."
+- .testimonial-card__name = "Cliente Relinq Beauty".
+- .testimonial-card__role removido deste card (a atribuição dada foi só
+  "— Cliente Relinq Beauty", sem cargo/salão). Os outros 2 cards seguem
+  com placeholder.
+
+style.css (@media max-width: 720px)
+- Nova regra: .testimonials-carousel .testimonial-card { padding-inline:
+  var(--space-7) }. No mobile as setas ‹ › do carrossel ficam sobre as
+  bordas do card (left/right: 2px, 40px de diâmetro); o texto real, mais
+  longo que o placeholder, passava por baixo delas. O recuo do conteúdo
+  libera as setas. Desktop não muda (setas ficam fora do card).
+
+Verificação (Playwright/Chromium, deviceScaleFactor 2)
+-----------------------------------------------------
+Prints da seção em 1280 e 390px.
+- 1280: card com o texto novo, setas fora do card, sem sobreposição.
+- 390: antes o texto cruzava as setas ("Recomendo demais..." por baixo
+  do ‹ ›); depois padding-inline 48px (confirmado via getComputedStyle)
+  e o texto passa limpo entre as setas. Avatar + nome ok.
+- Demais cards (placeholder) e outras seções intactos.
