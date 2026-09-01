@@ -1,0 +1,27 @@
+Adicionar print da Agenda no final do hero
+============================================
+
+Pedido: colocar a imagem assets/ImagemAgenda.jpeg no final da primeira
+secao (hero).
+
+Alteracoes
+----------
+- index.html: novo bloco `.hero__showcase` com a <img> logo apos
+  `.hero__visual`, ainda dentro de `.hero__body` / <section id="hero">.
+  data-reveal para entrar com a mesma animacao dos outros elementos do
+  hero. alt descritivo, loading="lazy".
+- style.css: `.hero__showcase` ocupa as duas colunas do grid do hero
+  (grid-column: 1 / -1) e fica abaixo do bloco logo/titulo/conteudo/mock.
+  A <img> ganhou border + border-radius + box-shadow no mesmo estilo do
+  card .hero-mock, width 100% (responsiva).
+
+Verificacao
+-----------
+- Servidor estatico local (python -m http.server) + Chromium headless
+  (playwright-core, executavel do cache do playwright) para screenshot.
+- Testado em 1440x900, 390x844 e 360x740: imagem carrega (200, sem 404
+  alem do favicon pre-existente), mantem proporcao, sem overflow
+  horizontal na pagina.
+- Comparado com a secao seguinte ("dores") pra confirmar que nada mais
+  mudou de layout.
+- Nenhum erro de console novo.

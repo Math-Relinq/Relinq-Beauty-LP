@@ -1,0 +1,31 @@
+Estilizar e reduzir o print da Agenda no hero
+==============================================
+
+Pedido: o print ficou "seco, jogado ali no meio" — reduzir um pouco o
+tamanho e estilizar a apresentacao.
+
+Alteracoes
+----------
+index.html (dentro de .hero__showcase):
+- Etiqueta "Assim fica sua agenda" acima da imagem.
+- Imagem envolvida por `.hero__showcase-frame`, com uma barrinha
+  `.hero__showcase-bar` (gradiente da marca + 3 bolinhas) simulando a
+  barra de titulo de uma janela — igual em espirito ao cabecalho do
+  `.hero-mock` que ja existe ao lado.
+
+style.css:
+- `.hero__showcase` deixou de ocupar a largura total: agora
+  `width: min(100%, 760px)`, centralizada, com margem acima.
+- Mancha de brilho suave atras da moldura (gradiente da marca + blur),
+  no mesmo espirito do `.hero__blob` usado no mock.
+- Moldura com borda, `border-radius: var(--radius-lg)` e
+  `box-shadow: var(--shadow-lg)`, mesmo tratamento visual do card
+  `.hero-mock`.
+
+Verificacao
+-----------
+- Servidor estatico local + Chromium headless (playwright-core).
+- Testado em 1440x900, 820x1024, 390x844 e 360x740: moldura reduzida,
+  centralizada, sem overflow horizontal, sem erros novos de console.
+- Comparado com a versao anterior (imagem solta em largura total) —
+  agora fica com cara de "vitrine do produto" em vez de imagem crua.

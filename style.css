@@ -746,6 +746,64 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   font-size: 0.7rem;
 }
 
+/* Print real da agenda, fechando o hero abaixo do bloco logo/título/mock.
+   Em vez de largar a imagem solta, ela ganha o mesmo tratamento do
+   .hero-mock: moldura tipo "janela do sistema", mancha de brilho atrás e
+   uma etiqueta em cima — e fica menor que a largura total do hero. */
+.hero__showcase {
+  grid-column: 1 / -1;
+  position: relative;
+  width: min(100%, 760px);
+  margin: var(--space-4) auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+.hero__showcase::before {
+  content: "";
+  position: absolute;
+  inset: -12% -8%;
+  z-index: -1;
+  background: var(--gradient-brand-soft);
+  filter: blur(32px);
+  border-radius: var(--radius-lg);
+}
+.hero__showcase-tag {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--magenta-700);
+  background: var(--magenta-100);
+  padding: 6px var(--space-4);
+  border-radius: var(--radius-pill);
+}
+.hero__showcase-frame {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+}
+.hero__showcase-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--gradient-brand);
+}
+.hero__showcase-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+.hero__showcase img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* Mancha rosa desfocada atrás do mock. */
 .hero__blob {
   position: absolute;
