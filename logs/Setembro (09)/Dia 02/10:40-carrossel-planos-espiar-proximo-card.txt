@@ -1,0 +1,44 @@
+Carrossel de planos — "bordinha" do próximo card sempre à mostra
+================================================================
+
+Objetivo
+--------
+No carrossel de #planos, deixar uma faixa do próximo card visível dentro da
+área do carrossel, para o usuário perceber que há mais card à direita.
+
+Alterações (style.css)
+----------------------
+Novo token local, na própria regra do carrossel:
+  .pricing-carousel { --peek: var(--space-6); }   /* 32px à mostra */
+
+Larguras do .carousel__slide por breakpoint:
+
+- Desktop (> 1080px): inalterado
+    calc((100% - var(--space-5) * 2) / 3)
+  Os 3 planos (Gratuito/Essential/Pro) cabem juntos e a trilha nem rola —
+  não existe próximo card para espiar, então o --peek NÃO entra aqui (se
+  entrasse, sobraria só um vão vazio de 32px).
+  OBS: se um 4º plano for adicionado, esta regra passa a precisar do --peek.
+
+- <= 1080px (2 cards por vez):
+    antes: calc((100% - var(--space-5)) / 2)
+    agora: calc((100% - var(--space-5) * 2 - var(--peek)) / 2)
+  Desconta 2 vãos (entre os cards e antes do que espia) mais o --peek.
+
+- <= 720px (1 card por vez):
+    antes: width: 100%
+    agora: calc(100% - var(--space-5) - var(--peek))
+  Desconta 1 vão (antes do que espia) mais o --peek.
+
+JS: sem mudança. O `step` do carrossel (app.js) é largura do slide + gap,
+então cada clique de seta continua avançando exatamente um card.
+
+Validação visual (Playwright, seção #planos)
+--------------------------------------------
+Faixa visível do próximo card, medida contra a caixa da trilha:
+  1440x900  -> 3 cards inteiros, trilha não rola (nada para espiar)
+  1000x800  -> 2 inteiros + 32px do "Pro" (a borda magenta dele aparece)
+   768x900  -> 2 inteiros + 32px
+   390x844  -> 1 inteiro + 32px do "Essential"
+   360x780  -> 1 inteiro + 32px
+Peek exatamente 32px em todos os breakpoints que rolam.

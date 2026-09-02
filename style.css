@@ -745,6 +745,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   width: 32px;
   height: auto;
   scale: 3.4;
+  margin-bottom: 20px;
 }
 
 .hero__title {
@@ -1095,7 +1096,14 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   border-radius: var(--radius-lg);
   background: var(--gradient-brand-soft);
 }
-/* 3 cards visíveis; o cálculo desconta os 2 vãos do .carousel__track. */
+/* Quantos pixels do próximo card ficam à mostra, para o usuário perceber que a
+   trilha continua à direita. Nos breakpoints abaixo o cálculo desconta um vão
+   a mais (o que fica antes do card que "espia") além desta faixa. */
+.pricing-carousel { --peek: var(--space-6); }
+
+/* 3 cards visíveis; o cálculo desconta os 2 vãos do .carousel__track. No
+   desktop os 3 planos cabem juntos e a trilha nem rola — não há próximo card
+   para espiar, então aqui não entra o --peek. */
 .pricing-carousel .carousel__slide { width: calc((100% - var(--space-5) * 2) / 3); }
 
 
@@ -1123,7 +1131,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   .reminders__grid,
   .onboarding__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-  .pricing-carousel .carousel__slide { width: calc((100% - var(--space-5)) / 2); }
+  /* 2 cards inteiros + a faixa do 3º espiando à direita: descontam-se 2 vãos
+     (entre os cards e antes do que espia) mais o --peek. */
+  .pricing-carousel .carousel__slide {
+    width: calc((100% - var(--space-5) * 2 - var(--peek)) / 2);
+  }
 }
 
 @media (max-height: 720px) {
@@ -1205,7 +1217,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 
   .calc { flex-direction: column; padding-top: var(--space-2); }
 
-  .pricing-carousel .carousel__slide { width: 100%; }
+  /* 1 card por vez + a faixa do próximo espiando. Aqui o desconto é de um vão
+     só (o que fica antes do card que espia) mais o --peek. */
+  .pricing-carousel .carousel__slide {
+    width: calc(100% - var(--space-5) - var(--peek));
+  }
 
   /* No mobile as setas do carrossel de depoimentos ficam sobre as bordas do
      card (left/right: 2px, 40px de diâmetro). Com depoimento real — texto mais
