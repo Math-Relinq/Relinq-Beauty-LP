@@ -1,0 +1,16 @@
+Bug (continuação do ajuste anterior): mesmo depois de suavizar a sombra do
+.pricing-card, ainda aparecia corte seco perto dos botões, nas bordas do
+carrossel de preços/planos.
+
+Causa real: não era a sombra do card, e sim a do botão. .btn--primary usa
+--shadow-brand (0 14px 32px rgba(196,19,104,0.30)) — bem mais forte/larga
+que a --shadow-tight do card — e o botão fica coladinho na borda inferior
+do card. Esse brilho extra estourava o respiro da trilha e era cortado.
+
+Correção (style.css):
+- .pricing-card .btn--primary (e :hover) agora com box-shadow: none.
+  Dentro do carrossel de planos só a sombra do próprio card aparece —
+  sem brilho duplicado/redundante no botão, sem corte.
+
+Validação: visual (Playwright/chromium headless), desktop 1440px e mobile
+390px, com zoom na fileira de botões. Sem corte seco em nenhum caso.

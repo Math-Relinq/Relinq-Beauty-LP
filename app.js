@@ -393,7 +393,7 @@
           <div class="pricing-card__name">${plan.name}</div>
           <div class="pricing-card__price-row">
             ${hasDiscount ? `<span class="pricing-card__price-original">R$ ${formatBRL(plan.price)}</span>` : ""}
-            <span class="pricing-card__price">${hasDiscount ? "para " : ""}R$ ${formatBRL(finalPrice)}</span>
+            <span class="pricing-card__price${hasDiscount ? " pricing-card__price--discount" : ""}">${hasDiscount ? "para " : ""}R$ ${formatBRL(finalPrice)}</span>
             <span class="pricing-card__price-suffix">${plan.priceSuffix}</span>
           </div>
           <p class="pricing-card__desc">${plan.description}</p>

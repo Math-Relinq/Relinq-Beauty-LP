@@ -1,0 +1,36 @@
+Suavizar o halo do bloco "- R$19.200,00" (seção Custo das faltas)
+==================================================================
+
+PROBLEMA
+O degradê rosa embaixo do bloco magenta terminava com um corte seco: em vez de
+dissolver no fundo da página, o brilho formava um anel de borda visível
+acompanhando o contorno da caixa.
+
+CAUSA
+.cost__highlight usava --shadow-brand (0 14px 32px, alfa 0.30) e é renderizado
+com transform: scale(0.5). O transform encolhe a sombra junto com a caixa, então
+na tela ela virava 0 7px 16px — curta e densa. Um blur de 16px sob uma caixa de
+~336px de largura não tem espaço para virar degradê: satura logo abaixo da borda
+e cai de uma vez, desenhando o anel.
+
+ALTERAÇÃO (style.css)
+1. Novo token --glow-brand, logo abaixo de --shadow-brand:
+     0 16px 48px  rgba(196, 19, 104, 0.10),
+     0 44px 120px rgba(196, 19, 104, 0.12)
+   Duas camadas de raio grande e alfa baixo; os raios já vêm dobrados para
+   compensar o scale(0.5) do único uso atual.
+2. .cost__highlight passou de box-shadow: var(--shadow-brand) para
+   box-shadow: var(--glow-brand).
+
+--shadow-brand ficou intacto: .btn--primary e .badge--brand (linhas 319 e 630)
+continuam exatamente como estavam.
+
+VALIDAÇÃO (prints headless em 390, 768 e 1440px)
+- Perfil de pixels sob a caixa (canal G, do topo da sombra até o fundo):
+  antes 190 -> 237 em ~40px (rampa curta, com anel e platô);
+  depois 208 -> 222 na mesma faixa, seguindo gradual — sem borda perceptível.
+- Diff pixel a pixel entre antes/depois em 1440px: a única banda de diferença
+  real é 1924-2206 (a região do halo, delta máx. 17). As bandas em ~3850-4030
+  são ruído de timing da animação data-reveal do carrossel de depoimentos, não
+  da alteração.
+- Layout, espaçamentos e a moldura da calculadora logo abaixo não se moveram.

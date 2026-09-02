@@ -119,6 +119,18 @@ h1, h2, h3, h4, h5, h6, p { overflow-wrap: break-word; }
   --shadow-md:    0 8px 24px rgba(28, 12, 30, 0.10);
   --shadow-lg:    0 20px 48px rgba(28, 12, 30, 0.16);
   --shadow-brand: 0 14px 32px rgba(196, 19, 104, 0.30);
+  /* Halo difuso da marca, para blocos grandes. A --shadow-brand é curta e
+     densa: embaixo de uma caixa larga ela termina num anel de borda visível
+     em vez de degradê. Aqui o brilho é dividido em duas camadas de raio
+     grande e alfa baixo, então a queda até o fundo da página é gradual. */
+  --glow-brand:   0 16px 48px rgba(196, 19, 104, 0.10),
+                  0 44px 120px rgba(196, 19, 104, 0.12);
+  /* Sombra "curta": mesma família da --shadow-md, mas com spread negativo,
+     que encolhe a origem da sombra antes do blur. Alcance bem menor em
+     todas as direções, para caber no respiro de um container com rolagem
+     (ex.: .carousel__track) sem cortar seco na borda. Blur alto e alfa
+     baixo deixam a queda bem gradual — some antes de esbarrar no respiro. */
+  --shadow-tight: 0 8px 24px -8px rgba(28, 12, 30, 0.16);
 
   /* -- Transições ------------------------------------------------------- */
   --t-fast: 150ms ease;
@@ -473,8 +485,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   white-space: nowrap;
 }
 .message-card__bubble {
-  /* tom de pele sutil (bege quente), compartilhado com o rabinho ::after */
-  --bubble-bg: #F4E6D8;
+  /* verde claro do WhatsApp (mensagem enviada), compartilhado com o rabinho ::after */
+  --bubble-bg: #DCF8C6;
   position: relative;
   align-self: flex-end;
   max-width: 92%;
@@ -615,13 +627,25 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 .pricing-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
   height: 100%;
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-5);
+  /* Sobrescreve a --shadow-md da superfície branca compartilhada (acima):
+     dentro do carrossel o card vive num container com rolagem e respiro
+     limitado — a --shadow-md original (blur 24px) estourava esse respiro e
+     cortava seco na borda. Ver .pricing-carousel .carousel__track. */
+  box-shadow: var(--shadow-tight);
+}
+/* O .btn--primary carrega a --shadow-brand (0 14px 32px) — bem maior que a
+   --shadow-tight do card. Perto da borda inferior do card, dentro da trilha
+   com rolagem, esse brilho extra estourava o respiro e cortava seco. Dentro
+   do carrossel de planos, só a sombra do próprio card deve aparecer. */
+.pricing-card .btn--primary,
+.pricing-card .btn--primary:hover {
+  box-shadow: none;
 }
 .pricing-card--highlighted {
   border: 2px solid var(--magenta-500);
-  box-shadow: var(--shadow-brand);
   transform: translateY(-4px);
 }
 .pricing-card__badge { align-self: flex-start; }
@@ -640,6 +664,14 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
+/* "para R$ XX,XX" (com desconto) é o texto de preço mais longo, e só cabe
+   apertado no card destacado — ele tem 2px de borda a mais roubando espaço
+   e é o mais estreito quando o carrossel divide a largura em 3. Reduz só
+   essa combinação; os outros cards (mais largos, sem borda) sobram espaço
+   de sobra mesmo com o texto mais longo. */
+.pricing-card--highlighted .pricing-card__price--discount {
+  font-size: calc(var(--fs-2xl) * 0.82);
+}
 .pricing-card__price-suffix {
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
@@ -657,7 +689,13 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 4px;
+  /* gap é o mínimo entre linhas; justify-content reparte o resto do espaço
+     (cards mais altos agora, ver .pricing-card) entre os itens, em vez de
+     deixar tudo empilhado no topo com um vão vazio antes do botão. Planos
+     com menos recursos preenchidos abrem mais respiro por linha; o Pro,
+     com texto mais longo, naturalmente fica mais compacto. */
+  justify-content: space-between;
+  gap: var(--space-2);
 }
 .pricing-card__feature {
   display: flex;
@@ -679,6 +717,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   .carousel__arrow { width: 40px; height: 40px; font-size: 1.2rem; }
   .carousel__arrow--prev { left: 2px; }
   .carousel__arrow--next { right: 2px; }
+  /* Mesmo motivo do breakpoint acima: sem o padding de um container em volta,
+     -18px (contra os 2px genéricos) mantém a seta (40px) dentro do padding
+     do card, sem cobrir texto. */
+  .pricing-carousel .carousel__arrow--prev { left: -18px; }
+  .pricing-carousel .carousel__arrow--next { right: -18px; }
   .testimonial-card { min-height: 220px; }
   .pricing-card--highlighted { transform: none; }
 }
@@ -864,7 +907,10 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   border-radius: var(--radius-lg);
   background: var(--gradient-brand);
   color: var(--white);
-  box-shadow: var(--shadow-brand);
+  /* Halo em vez da sombra do botão: o scale(0.5) abaixo encolhe a sombra
+     junto com a caixa, então os raios da --glow-brand já vêm dobrados para
+     chegarem na tela no tamanho pretendido. */
+  box-shadow: var(--glow-brand);
   transform: scale(0.5);
 }
 .cost__highlight-value {
@@ -1089,17 +1135,28 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   gap: var(--space-2);
   text-align: center;
 }
-.pricing__frame {
-  position: relative;
-  padding: var(--space-4);
-  border: 1px solid var(--magenta-100);
-  border-radius: var(--radius-lg);
-  background: var(--gradient-brand-soft);
-}
 /* Quantos pixels do próximo card ficam à mostra, para o usuário perceber que a
    trilha continua à direita. Nos breakpoints abaixo o cálculo desconta um vão
    a mais (o que fica antes do card que "espia") além desta faixa. */
-.pricing-carousel { --peek: var(--space-6); }
+.pricing-carousel { --peek: 25px; }
+
+/* A .carousel__arrow base fica a -6px (48px de diâmetro): pensada pra
+   overlapar só o respiro de um container com padding ao redor (como o
+   .pricing__frame que existia antes). Sem esse respiro, ela cobria o texto
+   do card. Aqui ela sai bem mais pra fora — cobre no máximo o padding do
+   card (--space-5 = 24px), nunca o texto. */
+.pricing-carousel .carousel__arrow--prev { left: -28px; }
+.pricing-carousel .carousel__arrow--next { right: -28px; }
+
+/* Respiro vertical da trilha (a base só tem --space-2), pra --shadow-tight
+   do .pricing-card render sem cortar seco embaixo/em cima. Sem padding
+   horizontal aqui de propósito: num container com scroll-snap ele soma à
+   largura visível do card que "espia" (o cálculo dos slides usa a largura
+   do conteúdo, sem padding, mas a área realmente visível inclui o padding),
+   estourando o --peek pretendido. */
+.pricing-carousel .carousel__track {
+  padding-block: var(--space-6);
+}
 
 /* 3 cards visíveis; o cálculo desconta os 2 vãos do .carousel__track. No
    desktop os 3 planos cabem juntos e a trilha nem rola — não há próximo card
@@ -1236,7 +1293,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   .pricing .section-title    { font-size: var(--fs-xl); }
   .pricing .section-subtitle { font-size: var(--fs-xs); }
   .pricing__head             { gap: 4px; }
-  .pricing__frame            { padding: var(--space-3); }
 
   .billing-toggle         { padding: 3px; }
   .billing-toggle__option { padding: 6px var(--space-3); font-size: 0.7rem; }

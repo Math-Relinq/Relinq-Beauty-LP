@@ -1,0 +1,53 @@
+Pedido: remover o wrapper .pricing__frame (container redundante em volta do
+carrossel de preços/planos, sem função — comparado ao carrossel de
+depoimentos, que não tem esse wrapper), reajustar a harmonia visual, deixar
+os cards um pouco mais altos com só ~20-25px do card da direita espiando, e
+reencaixar os textos. Depois, no mesmo fluxo: fonte do preço menor só onde
+o texto fica colado na borda (ciclo anual, card destacado), setas do
+carrossel sem sobrepor texto, e peek final de ~25px.
+
+Mudanças:
+
+1. index.html: removida a <div class="pricing__frame">; o
+   .carousel.pricing-carousel passou a filho direto de .section__body,
+   herdando os atributos data-reveal/data-reveal-delay do frame removido.
+
+2. style.css:
+   - Removida a regra .pricing__frame (padding/borda/fundo rosa) e sua
+     variante no breakpoint de altura curta (max-height:760px).
+   - .pricing-card: padding de --space-4/--space-5 para --space-5 uniforme
+     e gap de --space-2 para --space-3 — cards mais altos.
+   - .pricing-card__features: gap maior (--space-2) + justify-content:
+     space-between — os itens se espalham pelo espaço extra do card em vez
+     de deixar um vão vazio antes do botão (cards com menos recursos abrem
+     mais respiro por linha; o Pro, com texto mais longo, fica mais
+     compacto naturalmente).
+   - .pricing-carousel .carousel__track: ganhou padding-block: --space-6
+     (respiro vertical pra sombra do card não cortar seco). SEM
+     padding-inline: descobri que padding horizontal num container com
+     scroll-snap quebra a matemática do --peek (o calc() usa a largura do
+     conteúdo sem padding como base, mas a área visível real inclui o
+     padding, e o scroll-snap ainda colapsa o padding-left inicial) —
+     tentei e o sliver do card da direita saía ~68px em vez dos 20
+     pretendidos. Testado e sem corte de sombra mesmo sem esse padding.
+   - --peek: 20px → 25px (pedido final).
+   - Setas do carrossel: a base (-6px/-6px, pensada pra sobrepor só o
+     padding de um container como o frame removido) agora cobria texto.
+     Criadas .pricing-carousel .carousel__arrow--prev/--next com -28px
+     (desktop/tablet, seta de 48px) e -18px (mobile, seta de 40px,
+     dentro do breakpoint max-width:640px) — cobrem no máximo o padding do
+     card (24px), nunca o texto.
+   - .pricing-card__price--discount (nova classe, só quando há desconto):
+     .pricing-card--highlighted .pricing-card__price--discount reduz a
+     fonte pra 82% — só o card destacado (mais estreito por causa dos 2px
+     de borda) com o texto mais longo ("para R$ XX,XX") fica cramped; os
+     outros dois cards sobra espaço mesmo com esse texto.
+
+3. app.js: planCardHTML agora adiciona a classe pricing-card__price--discount
+   no span do preço quando hasDiscount é true.
+
+Validação: visual (Playwright/chromium headless) em desktop (1440px),
+tablet (900px, mostra o peek de 2 cards+1 espiando) e mobile (390px),
+ciclos Mensal e Anual. Confirmado por medição real do DOM: peek exatamente
+25px em tablet e mobile, sem sombra cortada em nenhum lado, texto do preço
+com folga em todos os cards no ciclo anual, setas sem sobrepor texto.

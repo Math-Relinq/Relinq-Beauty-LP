@@ -1,0 +1,11 @@
+Alteração: cor dos balões de WhatsApp (seção Lembretes automáticos / mensagens automáticas).
+
+- style.css, .message-card__bubble: variável --bubble-bg alterada de #F4E6D8 (bege / tom de pele)
+  para #DCF8C6 (verde claro clássico do WhatsApp, mensagem enviada).
+- A variável alimenta tanto o fundo do balão quanto o "rabinho" (::after), então ambos
+  ficam no mesmo verde automaticamente.
+- Comentário no CSS atualizado para refletir o novo tom.
+
+Escopo: apenas 1 propriedade de cor. --bubble-bg só é usada dentro de .message-card__bubble
+(3 ocorrências), sem overrides em media queries — layout e responsividade inalterados.
+Texto do balão continua em --text-primary (escuro), com bom contraste sobre o verde claro.

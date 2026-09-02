@@ -1,0 +1,26 @@
+Bug: box-shadow dos cards do carrossel de preços/planos era cortada de forma
+seca nas bordas do container com rolagem (.carousel__track), em vez de
+esmaecer suavemente.
+
+Causa: a --shadow-md (0 8px 24px) usada pelos .pricing-card tem alcance maior
+que o respiro disponível (.carousel__track só tinha padding-block: --space-2
+= 8px e nenhum padding-inline), então overflow-x/overflow-y cortavam a
+sombra antes do blur terminar. O card destacado (.pricing-card--highlighted)
+ainda somava --shadow-brand por cima, um glow mais largo e redundante.
+
+Correção (style.css):
+1. Novo token --shadow-tight (spread negativo) com alcance bem menor,
+   pensado para caber em containers com rolagem.
+2. .pricing-card passa a usar --shadow-tight (sobrescrevendo a --shadow-md
+   herdada da superfície branca compartilhada).
+3. Removida a --shadow-brand extra do .pricing-card--highlighted — ele
+   agora se diferencia só pela borda magenta e o translateY(-4px), sem
+   sombra própria adicional ("somente o box shadow dos cards").
+4. .pricing-carousel .carousel__track ganhou padding-block: --space-4 e
+   padding-inline: --space-3, respiro suficiente para a --shadow-tight
+   renderizar sem corte (escopado só ao carrossel de planos; o de
+   depoimentos não foi tocado).
+
+Validação: visual, com prints via Playwright/chromium headless em desktop
+(1440px) e mobile (390px), incluindo o carrossel rolado para o 2º/3º card.
+Sombra aparece suave e contínua em todos os casos, sem corte seco.
