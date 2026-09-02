@@ -59,8 +59,9 @@
   const CTA_URL = "https://app.relinq.com.br/cadastro";
 
   const precos = typeof PRECOS_DOS_PLANOS !== "undefined" ? PRECOS_DOS_PLANOS : {};
-  const preco    = (plano, campo, padrao) => precos[plano]?.[campo] ?? padrao;
-  const desconto = (ciclo, padrao) => precos.descontos?.[ciclo] ?? padrao;
+  const preco      = (plano, campo, padrao) => precos[plano]?.[campo] ?? padrao;
+  const precoCiclo = (plano, ciclo, padrao) => precos[plano]?.precos?.[ciclo] ?? padrao;
+  const desconto   = (ciclo, padrao) => precos.descontos?.[ciclo] ?? padrao;
 
   const BILLING_CYCLES = [
     { id: "monthly",    label: "Mensal",     discount: desconto("mensal", 0) },
@@ -94,7 +95,13 @@
       highlighted: false,
       badge: null,
       priceType: "per-user",
-      price: preco("essential", "preco", 19.9),
+      price: precoCiclo("essential", "mensal", 24.9),
+      pricesByCycle: {
+        monthly:    precoCiclo("essential", "mensal", 24.9),
+        quarterly:  precoCiclo("essential", "trimestral", 22.4),
+        semiannual: precoCiclo("essential", "semestral", 21.15),
+        annual:     precoCiclo("essential", "anual", 19.9),
+      },
       priceSuffix: preco("essential", "sufixo", "/mês por usuário"),
       description: "Para organizar a agenda e reduzir as faltas.",
       ctaLabel: "Começar com o Essential",
@@ -111,7 +118,13 @@
       highlighted: true,
       badge: "Mais popular",
       priceType: "per-user",
-      price: preco("pro", "preco", 39.9),
+      price: precoCiclo("pro", "mensal", 49.9),
+      pricesByCycle: {
+        monthly:    precoCiclo("pro", "mensal", 49.9),
+        quarterly:  precoCiclo("pro", "trimestral", 44.9),
+        semiannual: precoCiclo("pro", "semestral", 42.4),
+        annual:     precoCiclo("pro", "anual", 39.9),
+      },
       priceSuffix: preco("pro", "sufixo", "/mês por usuário"),
       description: "Para quem quer o salão rodando no piloto automático.",
       ctaLabel: "Começar com o Pro",
@@ -368,7 +381,7 @@
   /* -- Planos --------------------------------------------------------------- */
 
   const priceForCycle = (plan, cycle) =>
-    plan.priceType === "fixed" ? plan.price : plan.price * (1 - (cycle.discount || 0) / 100);
+    plan.priceType === "fixed" ? plan.price : (plan.pricesByCycle?.[cycle.id] ?? plan.price);
 
   const billingOptionHTML = (cycle, isActive) => `
     <button type="button" class="billing-toggle__option${isActive ? " is-active" : ""}" data-cycle="${cycle.id}">
