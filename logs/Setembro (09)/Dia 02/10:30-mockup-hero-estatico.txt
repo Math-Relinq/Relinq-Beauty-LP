@@ -1,0 +1,25 @@
+Mockup do hero: imagem estática (remove o float)
+
+Alteração
+---------
+style.css
+  - Removidos do .hero__mockup: animation hero-mockup-float, will-change,
+    transform: translateZ(0), backface-visibility.
+  - Removidos: @keyframes hero-mockup-float e o @media
+    (prefers-reduced-motion) que zerava a animação.
+  - Colapsado o wrapper .hero__visual-media (que só existia para isolar a
+    animação): width/max-width/margin-inline voltaram para o .hero__mockup.
+  - Media queries de altura baixa: .hero__visual-media -> .hero__mockup
+    (max-width 300px <=720px, 250px <=620px).
+
+index.html
+  - Removido o <span class="hero__visual-media"> em volta do <img>; o
+    .hero__mockup volta a ser filho direto do .hero__visual (junto do
+    .hero__blob).
+
+Profundidade continua vindo da sombra embutida no PNG + o glow .hero__blob.
+
+Verificação
+  - Print headless 1280px: mockup estático, layout e visual intactos.
+  - Sem nenhuma referência restante a hero-mockup-float / hero__visual-media.
+  - CSS com chaves balanceadas.

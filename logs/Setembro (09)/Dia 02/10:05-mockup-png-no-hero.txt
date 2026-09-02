@@ -1,0 +1,38 @@
+Mockup.png como visual principal do hero (1ª seção)
+
+Contexto
+--------
+O usuário comentou/removeu 2 imagens do hero:
+- a logo (<img class="hero__logo">)
+- o print da agenda (<img src="assets/ImagemAgenda.jpeg"> dentro de .hero__showcase)
+E adicionou assets/Mockup.png (407x614, PNG RGBA, dois celulares com o app,
+sombra já embutida) pedindo que ela entre "no lugar", elegante e responsiva.
+
+index.html
+  - .hero__visual: o cartão CSS .hero-mock (simulação da agenda) foi
+    substituído por <img class="hero__mockup" src="assets/Mockup.png"
+    width/height, fetchpriority="high", alt descritivo>. O .hero__blob (glow)
+    foi mantido.
+  - Removido o bloco .hero__showcase inteiro (já estava vazio depois que o
+    usuário comentou a imagem e a barra).
+  - Logo continua comentada (como o usuário deixou).
+
+style.css
+  - Removidas as regras órfãs: .hero__showcase*, .hero-mock*
+    (~120 linhas de CSS agora sem uso).
+  - .hero__blob reescrito: glow centralizado (inset:0; margin:auto; width:90%;
+    blur 48px; opacity .85) atrás do mockup, discreto.
+  - Novo .hero__mockup: display block, width 100%, max-width 400px,
+    margin-inline auto, drop-shadow(0 26px 44px rgba(122,15,66,.24)) para
+    profundidade extra, e animação sutil hero-mockup-float (7s, +/-12px),
+    com guarda @media (prefers-reduced-motion: reduce).
+  - Media queries de altura baixa: trocadas as linhas .hero-mock__* por
+    .hero__mockup { max-width: 300px } (<=720px) e { max-width: 250px } (<=620px).
+  - Comentário do .hero__content atualizado (mencionava .hero__showcase).
+
+Verificação (prints headless, [data-reveal] forçado visível, float desligado)
+  - 375 / 768 / 1280 / 1440px: desktop com mockup à direita e texto à
+    esquerda + glow; <=1080px empilha e centraliza o mockup (cap 420px do
+    .hero__visual). Sem overflow horizontal, imagem nítida (exibida <= tamanho
+    nativo).
+  - CSS com chaves balanceadas (231/231).

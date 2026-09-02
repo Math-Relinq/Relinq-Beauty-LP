@@ -721,11 +721,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-5);
-  /* O .hero__showcase é posicionado e cria contexto de empilhamento (transform
-     do data-reveal), então ele e sua mancha desfocada (::before) pintam por cima
-     do .hero__content, que vem antes no DOM mas não é posicionado — a última
-     linha do bloco de confiança ("Cancele quando quiser") sumia lavada sob o
-     blur rosa. Posicionar e subir o bloco na pilha mantém o texto nítido. */
+  /* Fica acima do glow desfocado do .hero__visual para o texto não lavar. */
   position: relative;
   z-index: 1;
 }
@@ -794,130 +790,29 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   font-size: 0.7rem;
 }
 
-/* Print real da agenda, fechando o hero abaixo do bloco logo/título/mock.
-   Em vez de largar a imagem solta, ela ganha o mesmo tratamento do
-   .hero-mock: moldura tipo "janela do sistema", mancha de brilho atrás e
-   uma etiqueta em cima — e fica menor que a largura total do hero. */
-.hero__showcase {
-  grid-column: 1 / -1;
-  position: relative;
-  width: min(100%, 760px);
-  margin: var(--space-4) auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-}
-.hero__showcase::before {
-  content: "";
-  position: absolute;
-  inset: -12% -8%;
-  z-index: -1;
-  background: var(--gradient-brand-soft);
-  filter: blur(32px);
-  border-radius: var(--radius-lg);
-}
-.hero__showcase-frame {
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid var(--gray-100);
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-lg);
-}
-.hero__showcase-bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: var(--space-3) var(--space-4);
-  background: var(--gradient-brand);
-}
-.hero__showcase-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-}
-.hero__showcase img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* Mancha rosa desfocada atrás do mock. */
+/* Glow rosa atrás do mockup — dá profundidade e "chão" no lugar de um
+   drop-shadow (que, animando junto do float, forçava repintura por frame). */
 .hero__blob {
   position: absolute;
-  inset: -10% -10% auto auto;
+  inset: 0;
   z-index: -1;
-  width: 60%;
+  margin: auto;
+  width: 92%;
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--gradient-brand-soft);
-  filter: blur(10px);
+  filter: blur(52px);
+  opacity: 1;
 }
 
-/* Simulação do painel do sistema. */
-.hero-mock {
-  overflow: hidden;
-  border: 1px solid var(--gray-100);
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-lg);
-  text-align: center;
-}
-.hero-mock__header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: var(--space-5);
-  background: var(--gradient-brand);
-  color: var(--white);
-}
-.hero-mock__header-label { font-size: var(--fs-xs); opacity: 0.85; white-space: nowrap; }
-.hero-mock__header-title { font-size: var(--fs-lg); font-weight: var(--fw-bold); white-space: nowrap; }
-
-.hero-mock__stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-3);
-  padding: var(--space-5);
-}
-.hero-mock__stat {
-  padding: var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--gray-50);
-}
-.hero-mock__stat-value { font-size: var(--fs-lg); font-weight: var(--fw-black); color: var(--magenta-700); white-space: nowrap; }
-.hero-mock__stat-label { font-size: 0.7rem; font-weight: var(--fw-semibold); color: var(--text-muted); white-space: nowrap; }
-
-.hero-mock__rows {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 0 var(--space-5) var(--space-5);
-}
-.hero-mock__row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
+/* Mockup do app (dois celulares) — visual principal do hero. */
+.hero__mockup {
+  display: block;
   width: 100%;
-  padding: var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--gray-50);
+  max-width: 400px;
+  height: auto;
+  margin-inline: auto;
 }
-.hero-mock__row-dot {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green-500);
-}
-.hero-mock__row-dot--pending { background: var(--yellow-500); }
-.hero-mock__row-text { font-size: var(--fs-xs); font-weight: var(--fw-medium); color: var(--text-secondary); white-space: nowrap; }
-.hero-mock__row-text strong { color: var(--text-primary); }
 
 /* -- 2. Dores ------------------------------------------------------------- */
 .pains__grid {
@@ -1233,13 +1128,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 
 @media (max-height: 720px) {
   .hero__trust-item:nth-child(3) { display: none; }
-  .hero-mock__row:nth-child(3)   { display: none; }
-  .hero-mock__header { padding: var(--space-3) var(--space-4); }
-  .hero-mock__stats  { padding: var(--space-3) var(--space-4); }
-  .hero-mock__rows   { padding: 0 var(--space-4) var(--space-4); }
+  .hero__mockup { max-width: 300px; }
 }
 @media (max-height: 620px) {
   .hero__visual { max-width: 340px; }
+  .hero__mockup { max-width: 250px; }
 }
 
 @media (max-width: 720px) {

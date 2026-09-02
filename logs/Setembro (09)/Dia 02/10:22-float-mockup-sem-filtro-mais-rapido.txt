@@ -1,0 +1,25 @@
+Float do Mockup: tira o filtro (fim do "travado") e 1.3x mais rápido
+
+Problema
+-------
+Mesmo com a sombra no wrapper, o float continuava levemente travado. Causa:
+um filter: drop-shadow em ANCESTRAL direto do elemento que anima obriga o
+navegador a recompor a sombra a cada frame (não vira animação de compositor).
+
+Alteração (style.css)
+--------------------
+- .hero__visual-media: removido o filter: drop-shadow(...). Agora não há
+  filtro em nenhum ancestral do .hero__mockup -> o float (só transform:
+  translate3d) roda 100% no compositor/GPU.
+- Profundidade agora vem da sombra que já está embutida no PNG + o glow
+  .hero__blob, que ficou um pouco mais forte para compensar
+  (opacity 0.85 -> 1, blur 48px -> 52px, width 90% -> 92%).
+- Velocidade: animation 7s -> 5.4s (~1.3x mais rápido).
+- Amplitude: -12px -> -13px (glide um tico mais perceptível).
+- Mantidos will-change: transform, translateZ(0), backface-visibility: hidden
+  e o guard de prefers-reduced-motion.
+
+Verificação
+  - Prints headless 375 / 1280px: visual limpo, mockup com sombra do PNG +
+    glow; sem drop-shadow CSS. Layout intacto.
+  - CSS com chaves balanceadas.

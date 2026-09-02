@@ -1,0 +1,31 @@
+Float do Mockup do hero: animação compositor-only (60fps sem drop de frames)
+
+Pedido
+------
+"aumente a animação para 60fps". Animações CSS já rodam na taxa do monitor;
+o que causava risco de engasgo era a sombra sendo repintada a cada frame.
+
+Alteração
+---------
+index.html
+  - O <img class="hero__mockup"> foi envolvido por
+    <span class="hero__visual-media"> (wrapper estático).
+
+style.css
+  - .hero__visual-media (novo, estático): recebe width/max-width/margin e o
+    filter: drop-shadow(...) que antes estava no .hero__mockup.
+  - .hero__mockup: sem filter agora; anima só transform. Keyframes
+    hero-mockup-float passaram de translateY() para translate3d(0,Y,0).
+    Adicionados will-change: transform, transform: translateZ(0) e
+    backface-visibility: hidden -> camada de composição própria, animação
+    100% na GPU.
+  - Media queries de altura baixa: .hero__mockup { max-width } ->
+    .hero__visual-media { max-width } (300px <=720px, 250px <=620px).
+
+Efeito: o mockup flutua numa layer separada; o navegador só move a layer a
+cada frame (sem recompor a sombra), mantendo 60fps.
+
+Verificação
+  - Prints headless 375 / 1280px: resultado visual idêntico ao anterior
+    (bytes iguais) — refactor transparente. Sombra segue no lugar.
+  - CSS com chaves balanceadas (232/232).
