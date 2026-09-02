@@ -1,0 +1,24 @@
+Avatar dos depoimentos usa a marca da Relinq
+===========================================
+
+Alteração
+---------
+style.css — .testimonial-card__avatar
+- background trocado de só `var(--gradient-brand-soft)` para
+  `url("assets/RDaRelinq.png") center / 62% no-repeat, var(--gradient-brand-soft)`.
+  O "R" da Relinq (assets/RDaRelinq.png, ~15KB, PNG com fundo transparente)
+  aparece centralizado sobre o gradiente rosa claro, dentro do círculo de
+  44px (border-radius: 50% já recorta).
+- Adicionado `flex-shrink: 0` para o círculo não achatar em nome longo.
+
+Vale para os 3 cards do carrossel (classe compartilhada); os placeholders
+seguem com a mesma marca até virem fotos reais.
+
+Verificação (Playwright/Chromium, deviceScaleFactor 2)
+-----------------------------------------------------
+Prints da seção #como-comecar em 1280 e 390px:
+- Marca da Relinq visível e nítida no avatar, centralizada, sobre o
+  gradiente. Sem distorção (imagem quadrada, size 62%).
+- Alinhamento avatar + nome ok; setas do carrossel livres (padding-inline
+  do mobile mantido).
+- Nenhuma outra seção afetada.

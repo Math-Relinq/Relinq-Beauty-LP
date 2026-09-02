@@ -562,11 +562,13 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   gap: var(--space-3);
 }
 .testimonial-card__avatar {
+  flex-shrink: 0;
   width: 44px;
   height: 44px;
   border: 1px solid var(--magenta-100);
   border-radius: 50%;
-  background: var(--gradient-brand-soft);
+  /* Marca da Relinq no lugar da foto de perfil (depoimentos sem rosto real). */
+  background: url("assets/RDaRelinq.png") center / 62% no-repeat, var(--gradient-brand-soft);
 }
 .testimonial-card__name { font-size: var(--fs-sm); font-weight: var(--fw-bold); }
 .testimonial-card__role { font-size: var(--fs-xs); color: var(--text-muted); }
