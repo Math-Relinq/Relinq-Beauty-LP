@@ -437,46 +437,79 @@
 
   /* -- Calculadora do prejuízo ---------------------------------------------- */
 
-  /** Com os 3 campos preenchidos, troca o valor fixo pelo comparativo. */
+  /** Assim que os 3 campos ficam preenchidos, a moldura da calculadora cresce e
+   *  aparecem (com fade-in via CSS) 3 bolinhas de loading, e a tela rola até
+   *  elas — SEM tirar o foco do campo. Depois de 1s as bolinhas dão lugar ao
+   *  resultado; só aí o campo é desselecionado e a tela reajusta. */
+  const LOADING_MS = 1000;
+
   const initCalculator = () => {
     const inputs  = $$("[data-calc-input]");
-    const compare = $("[data-cost-compare]");
-    const fallback = $("[data-cost-default]");
-    const loss = $("[data-cost-loss]");
-    const gain = $("[data-cost-gain]");
-    if (!inputs.length || !compare || !fallback || !loss || !gain) return;
+    const result  = $("[data-calc-result]");
+    const loading = $("[data-calc-loading]");
+    const body    = $("[data-calc-result-body]");
+    const value   = $("[data-calc-result-value]");
+    if (!inputs.length || !result || !loading || !body || !value) return;
 
-    const highlight = compare.closest(".cost__highlight");
-    let showingResult = false;
+    let phase = "hidden"; // "hidden" | "loading" | "result"
+    let pendingTimer = null;
 
-    const setResultVisible = (visible) => {
-      showingResult = visible;
-      fallback.hidden = visible;
-      compare.classList.toggle("is-visible", visible);
-      compare.setAttribute("aria-hidden", String(!visible));
+    const readValues = () => inputs.map((el) => el.value.replace(",", "."));
+    const allFilled = (values) =>
+      values.every((v) => v !== "" && !isNaN(Number(v)));
+
+    const hide = () => {
+      phase = "hidden";
+      result.hidden = true;
+      result.classList.remove("is-visible");
+      loading.hidden = false; // volta ao estado de loading para a próxima vez
+      body.hidden = true;
+    };
+
+    const showLoading = () => {
+      phase = "loading";
+      loading.hidden = false;
+      body.hidden = true;
+      result.hidden = false;
+      // dispara o fade-in + o crescimento da moldura
+      result.classList.add("is-visible");
+      result.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    const showResult = (input) => {
+      phase = "result";
+      loading.hidden = true;
+      body.hidden = false;
+      // só agora o campo perde o foco (fecha o teclado)
+      input.blur();
+      afterKeyboardCloses(() => {
+        if (phase !== "result") return;
+        result.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
     };
 
     const onInput = (input) => {
-      const values = inputs.map((el) => el.value.replace(",", "."));
-      const isValid = values.every((v) => v !== "" && !isNaN(Number(v)));
+      const values = readValues();
 
-      if (!isValid) {
-        if (showingResult) setResultVisible(false);
+      if (!allFilled(values)) {
+        clearTimeout(pendingTimer);
+        pendingTimer = null;
+        if (phase !== "hidden") hide();
         return;
       }
 
-      const annualLoss = values.reduce((total, v) => total * Number(v), 12);
-      loss.textContent = `- R$ ${formatBRL(annualLoss)}/ano`;
-      gain.textContent = `+ R$ ${formatBRL(annualLoss)}/ano`;
+      // Mantém o número em dia mesmo antes de aparecer (e depois, se editarem).
+      const annualSaving = values.reduce((total, v) => total * Number(v), 12);
+      value.textContent = `R$ ${formatBRL(annualSaving)}`;
 
-      if (showingResult) return;
-      setResultVisible(true);
-      // Só tira o foco (fecha o teclado) na hora de rolar, para não
-      // interromper quem ainda está digitando.
-      setTimeout(() => {
-        input.blur();
-        afterKeyboardCloses(() => highlight.scrollIntoView({ behavior: "smooth", block: "center" }));
-      }, 700);
+      if (phase !== "hidden" || pendingTimer) return;
+
+      showLoading();
+      pendingTimer = setTimeout(() => {
+        pendingTimer = null;
+        if (!allFilled(readValues())) { hide(); return; }
+        showResult(input);
+      }, LOADING_MS);
     };
 
     inputs.forEach((input) => input.addEventListener("input", () => onInput(input)));

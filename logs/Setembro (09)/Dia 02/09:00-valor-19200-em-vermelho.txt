@@ -1,0 +1,9 @@
+Alteração: deixar o valor "- R$19.200,00" (bloco de destaque da seção "Custo das faltas") em vermelho.
+
+O que mudou (style.css, .cost__highlight-value):
+- color: #FF3B3B (vermelho vivo que contrasta bem com o gradiente magenta de fundo; o token --red-500 #E5484D ficava próximo demais do magenta e quase ilegível).
+- text-shadow: 0 2px 8px rgba(60, 0, 20, 0.45) para manter legibilidade no lado claro do gradiente.
+
+Validação:
+- Screenshots desktop (1280px) e mobile (390px): valor legível e claramente vermelho nos dois casos.
+- Nenhum outro elemento alterado; o rótulo "por ano apenas..." segue branco.

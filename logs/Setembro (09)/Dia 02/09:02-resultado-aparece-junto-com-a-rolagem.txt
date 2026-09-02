@@ -1,0 +1,31 @@
+Ajuste de timing — resultado da calculadora
+
+Pedido
+------
+A expansão da moldura E o aparecimento do número devem acontecer JUNTO com a
+rolagem da tela, depois do delay (antes eram imediatos, na última tecla; só a
+rolagem/blur esperavam os 700ms). Manter o fade-in.
+
+Alteração (app.js — initCalculator)
+-----------------------------------
+- setResultVisible(true) saiu do fluxo imediato e foi para dentro do
+  setTimeout(700) -> afterKeyboardCloses(), no MESMO ponto do scrollIntoView.
+  Agora, depois do delay: input.blur() fecha o teclado e, quando ele termina
+  de recolher, a moldura cresce + o número aparece (fade-in via CSS) + a tela
+  rola, tudo no mesmo instante.
+- O número (value.textContent) continua sendo calculado assim que os 3 campos
+  ficam válidos, para já estar certo quando o bloco aparece e para atualizar
+  se editarem depois.
+- Guarda nova: pendingTimer guarda o id do setTimeout. Se algum campo for
+  esvaziado dentro dos 700ms, clearTimeout cancela e nada aparece; e o
+  callback ainda revalida allFilled(readValues()) antes de mostrar/rolar.
+- Helpers readValues() e allFilled() extraídos para não repetir.
+
+CSS: sem mudança — @keyframes calc-result-in (opacity 0->1 + translateY 8px->0,
+--t-slow) segue valendo e é disparado pela classe .is-visible.
+
+Verificação
+-----------
+- node -c app.js OK.
+- Print headless 390px: resultado aparece só após o delay, flagrado no meio do
+  fade-in (confirma que anima e que não aparece mais na hora da digitação).

@@ -1,0 +1,46 @@
+Bolinhas de "loading" antes do resultado da calculadora
+
+Pedido
+------
+- Assim que os 3 campos ficam preenchidos, aparecem 3 bolinhas pulando em
+  sequência (loading). Mantendo tudo o que já havia: fade-in no surgimento,
+  crescimento da moldura, rolagem da tela.
+- IMPORTANTE: nessa hora o campo de texto NÃO deve perder o foco.
+- Depois de 0,8s as bolinhas são trocadas pelo resultado. SÓ AÍ o campo é
+  desselecionado (fecha o teclado).
+
+index.html (.calc__result)
+  - Adicionado <div class="calc__loading" data-calc-loading> com 3
+    <span class="calc__dot">.
+  - O <p class="calc__result-text"> ganhou data-calc-result-body e atributo
+    hidden (começa escondido).
+  - .calc__result agora tem aria-live="polite".
+
+style.css
+  - .calc__loading: flex centralizado, min-height 2.4rem; .calc__loading[hidden]{display:none}.
+  - .calc__dot: 10px, círculo, var(--magenta-600), animation calc-dot-bounce
+    1s infinite; delays 0.16s e 0.32s no 2º e 3º (efeito sequencial).
+  - @keyframes calc-dot-bounce: sobe -9px e volta, opacity 0.45 -> 1.
+  - .calc__result-text:not([hidden]) { animation: calc-result-in var(--t-base) both }
+    — fade suave na troca bolinhas -> resultado.
+  - @media (prefers-reduced-motion): sem animação nas bolinhas/troca.
+
+app.js (initCalculator)
+  - Estado vira máquina de 3 fases: "hidden" | "loading" | "result".
+  - showLoading(): mostra as bolinhas, esconde o texto, adiciona .is-visible
+    (dispara fade-in + moldura cresce) e scrollIntoView. NÃO dá blur.
+  - setTimeout(LOADING_MS = 800) -> showResult(input): esconde bolinhas, mostra
+    texto e SÓ ENTÃO input.blur(); afterKeyboardCloses -> scrollIntoView de novo
+    para reajustar quando o teclado recolhe.
+  - Guardas: campo esvaziado dentro dos 800ms -> clearTimeout + hide() (que
+    reseta para o estado de bolinhas); o callback revalida allFilled e checa
+    phase antes de mostrar/rolar.
+  - O número continua sendo recalculado a cada tecla.
+
+Verificação (prints headless Chrome, animações on e off, 390 / 1280)
+  - Estado loading: moldura cresce, divisória, 3 bolinhas magenta centralizadas
+    abaixo dos campos; nos prints com animação aparecem em fases diferentes
+    (sequencial OK).
+  - Estado resultado (após 800ms): bolinhas somem, texto "Você pode economizar
+    até / R$ 69.120,00 / por ano" no lugar. OK em mobile e desktop.
+  - node -c app.js OK; chaves do CSS 247/247.

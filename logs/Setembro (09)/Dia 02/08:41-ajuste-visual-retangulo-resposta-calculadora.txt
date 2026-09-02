@@ -1,0 +1,38 @@
+Ajuste visual do retângulo de resposta da calculadora (continuação do 08:34)
+
+Pedidos
+-------
+1. "VOCÊ" -> "Você" (só a primeira maiúscula).
+2. Destaque de "Você" e do valor via negrito em rosa, como os outros
+   textos da página (padrão .kw--2 / .calc__hint strong: --fw-bold + --magenta-600).
+3. Reduzir o retângulo da resposta para nunca encostar nas bordas em
+   nenhum tamanho de tela.
+4. Fundo: usar um rosa bem mais claro que o retângulo forte.
+
+Alterações
+----------
+index.html
+  - <strong class="calc-result__you">VOCÊ</strong> -> Você
+
+style.css (.calc-result e filhos)
+  - background: var(--gradient-brand) (rosa forte) -> var(--magenta-100) (#FCE1EE, rosa claro)
+  - border: 2px solid var(--magenta-600) + border-radius --radius-md (igual à caixa da calculadora)
+  - box-shadow forte (--shadow-brand) -> 0 8px 24px rgba(224,26,120,0.15) (mesma da .calc__box)
+  - Removido color:#fff. Texto base em var(--text-secondary), fonte menor (--fs-sm).
+  - .calc-result__you: --fw-bold + color var(--magenta-600) (negrito rosa).
+  - .calc-result__value: color var(--magenta-600), font-size clamp(1.5rem,6vw,2rem)
+    (era clamp(1.7rem,7vw,2.8rem)); mantém white-space:nowrap e fonte display black.
+  - .calc-result__period: --fs-xs, color var(--text-muted).
+  - Tamanho: width: calc(100% - var(--space-6)); max-width: 300px (era 460px) +
+    margin auto. A folga lateral (space-6 = 32px) garante que não encosta nas
+    bordas mesmo abaixo de 300px de viewport.
+  - Removido o override de padding do .calc-result na media query mobile
+    (não é mais necessário, a caixa já é pequena em qualquer largura).
+
+Verificação (prints headless Chrome, calculadora preenchida)
+-----------------------------------------------------------
+  - 320px, 390px, 1280px: retângulo claro, centralizado, com margem lateral
+    visível em todos; nunca encosta nas bordas.
+  - "Você" e "R$ 69.120,00" em negrito magenta sobre fundo rosa claro, boa leitura.
+  - Stress "R$ 1.558.440,00" a 320px: cabe em 1 linha dentro da caixa de 300px.
+  - node -c app.js OK.

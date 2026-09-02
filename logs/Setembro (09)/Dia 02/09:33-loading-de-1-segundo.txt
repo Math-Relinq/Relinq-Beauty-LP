@@ -1,0 +1,8 @@
+Duração do loading da calculadora: 0,8s -> 1s
+
+app.js: LOADING_MS de 800 para 1000 (comentário do initCalculator atualizado
+para "1s"). Nenhuma outra mudança — as bolinhas continuam pulando em loop
+enquanto o loading dura, e a troca pelo resultado (com blur do campo) agora
+ocorre 1s depois de os 3 campos ficarem preenchidos.
+
+node -c app.js OK.

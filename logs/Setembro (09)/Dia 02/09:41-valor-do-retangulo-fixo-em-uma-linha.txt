@@ -1,0 +1,20 @@
+"- R$19.200,00" (retângulo rosa fixo do topo) sempre em uma linha
+
+Problema
+--------
+.cost__highlight-value quebrava em 2-3 linhas em telas estreitas
+(ex.: 320px mostrava "-", "R$19.200,", "00").
+
+Alteração (style.css .cost__highlight-value)
+-------------------------------------------
+- font-size: var(--fs-huge) [clamp(2.4rem,6.5vw,4.4rem)] ->
+  clamp(1.4rem, 6.5vw, 4.4rem) — mesmo teto, mínimo bem menor para caber
+  nas telas estreitas.
+- + white-space: nowrap (nunca quebra).
+- - overflow-wrap: break-word (não faz mais sentido com nowrap).
+- scale: 1.1 mantido.
+
+Verificação (prints headless, estado normal e revelado/full-size)
+  - 300 / 320 / 360 / 390 / 768 / 1280px: "- R$19.200,00" numa linha só em
+    todos, dentro do retângulo, sem overflow.
+  - Chaves do CSS 247/247.

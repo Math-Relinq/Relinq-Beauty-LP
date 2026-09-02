@@ -1,0 +1,44 @@
+Alteração: apresentação do resultado da calculadora do prejuízo
+
+Contexto
+--------
+O resultado da calculadora era exibido dentro do retângulo rosa que fica
+ACIMA da calculadora (.cost__highlight): ao preencher os 3 campos, o valor
+fixo "R$19.200,00" era trocado por um comparativo "Sem Relinq / Com Relinq".
+
+O que foi feito
+---------------
+1. index.html
+   - .cost__highlight voltou a ser estático: só <span class="cost__highlight-value">
+     e <span class="cost__highlight-label">. Removidos os blocos
+     [data-cost-default] e [data-cost-compare] (com data-cost-loss / data-cost-gain).
+   - Novo retângulo rosa ABAIXO da calculadora: <div class="calc-result" data-calc-result hidden>
+     com o texto "VOCÊ (destacado) pode economizar até R$ X,XX (destacado)" + "por ano".
+
+2. style.css
+   - Removidas todas as regras .cost__compare* (comparativo).
+   - .cost__highlight: gap reduzido de --space-6 para --space-2 (agora só value + label).
+   - Novo bloco .calc-result / .calc-result__text / __you / __value / __period,
+     reaproveitando --gradient-brand, --shadow-brand, --radius-lg (mesmo visual do
+     retângulo de cima). Valor com white-space:nowrap e font-size
+     clamp(1.7rem, 7vw, 2.8rem) para não quebrar "R$" do número.
+   - Media query mobile: .calc-result { padding: var(--space-5); }.
+
+3. app.js — initCalculator()
+   - Não mexe mais no retângulo de cima. Agora revela [data-calc-result],
+     preenche [data-calc-result-value] com "R$ " + formatBRL(annualSaving)
+     (mesmo cálculo: 12 * ticket * faltas * dias).
+   - Todos os efeitos foram movidos para o novo retângulo:
+     * scrollInto~View({behavior:"smooth", block:"center"}) agora aponta para o result.
+     * input.blur() (desseleciona o campo / fecha o teclado) mantido.
+     * afterKeyboardCloses() mantido antes de rolar.
+   - Limpar qualquer campo esconde o retângulo de novo (setResultVisible(false)).
+
+Verificação
+-----------
+- Prints headless (Chrome) em 390px e 1280px: retângulo de cima permanece
+  estático em "R$19.200,00"; novo retângulo aparece abaixo da calculadora com
+  "VOCÊ pode economizar até R$ 69.120,00 / por ano".
+- Stress test com "R$ 1.558.440,00": cabe em 1 linha em mobile e desktop.
+- activeElement após o fluxo = body (campo desselecionado automaticamente OK).
+- node -c app.js OK. grep por data-cost / cost__compare / fallback: sem órfãos.

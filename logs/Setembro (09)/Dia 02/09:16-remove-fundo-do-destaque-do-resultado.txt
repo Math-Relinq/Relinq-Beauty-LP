@@ -1,0 +1,27 @@
+Remove o fundo do destaque de "Você" e do valor (calculadora)
+
+Pedido
+------
+Tirar as cores de fundo (marca-texto) de "Você" e do resultado; deixar só as
+letras coloridas.
+
+Alteração (style.css)
+---------------------
+.calc__result-you
+  - Removidos: background rgba(224,26,120,0.14), padding, border-radius,
+    display:inline-block.
+  - Mantidos: font-size var(--fs-lg), font-weight --fw-black,
+    color var(--magenta-700).
+
+.calc__result-value
+  - Removidos: background, padding, border-radius, width:fit-content,
+    margin auto (voltou a margin-top: var(--space-3), continua centralizado
+    pelo text-align:center do .calc__result e display:block).
+  - Mantidos: font-family display, font-size clamp(1.8rem,7vw,2.3rem),
+    --fw-black, color --magenta-700, white-space:nowrap.
+
+Sem mudança em index.html/app.js. Fade-in intacto.
+
+Verificação (prints headless 390 / 1280, campos preenchidos)
+  - "Você" e "R$ 69.120,00" sem retângulo de fundo, só texto magenta maior.
+  - Chaves do CSS balanceadas (237/237).

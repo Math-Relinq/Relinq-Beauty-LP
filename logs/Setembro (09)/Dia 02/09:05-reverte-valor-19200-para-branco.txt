@@ -1,0 +1,8 @@
+Alteração: desfazer o vermelho do valor "- R$19.200,00" (bloco de destaque da seção "Custo das faltas").
+
+O que mudou (style.css, .cost__highlight-value):
+- Removidos color: #FF3B3B e text-shadow adicionados anteriormente.
+- Volta a herdar color: var(--white) de .cost__highlight.
+
+Validação:
+- Screenshot desktop (1280px): valor de novo em branco, como no estado original.

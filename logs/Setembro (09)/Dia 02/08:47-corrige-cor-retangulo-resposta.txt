@@ -1,0 +1,30 @@
+Correção — retângulo de resposta da calculadora (revertendo o 08:41)
+
+Erro anterior
+-------------
+No 08:41 eu troquei o FUNDO do retângulo (gradiente rosa forte -> rosa claro),
+o que não foi pedido. O pedido era só mudar a cor do DESTAQUE.
+
+Ajuste
+------
+style.css (.calc-result)
+  - Fundo volta ao original: background var(--gradient-brand), color var(--white),
+    box-shadow var(--shadow-brand), border-radius var(--radius-lg). Sem borda.
+  - Mantido do 08:41 (pedido anterior, continua valendo): tamanho reduzido
+    width calc(100% - var(--space-6)) / max-width 300px para nunca encostar
+    nas bordas, e value com clamp(1.5rem,6vw,2rem) + nowrap.
+  - .calc-result__you e .calc-result__value: cor do texto passa a
+    var(--magenta-300) (#F484BC) — rosa bem claro sobre o fundo rosa forte,
+    em negrito. O resto do texto ("pode economizar até" / "por ano") continua
+    branco.
+
+index.html: sem mudança (já estava "Você").
+
+Verificação (prints headless, 320 / 390 / 1280, calculadora preenchida)
+  - Retângulo com o gradiente rosa forte original, compacto e centralizado,
+    com folga lateral em todas as larguras.
+  - "Você" e "R$ 69.120,00" em rosa claro (#F484BC), destacados do texto branco.
+  - node -c app.js OK.
+
+Obs: se #F484BC ainda parecer forte demais, dá pra clarear para um tom entre
+esse e o #FCE1EE (magenta-100).

@@ -1,0 +1,47 @@
+Mudança de abordagem — resultado da calculadora dentro da própria moldura
+
+Pedido
+------
+- Remover o retângulo separado de resultado (todas as versões anteriores).
+- Ao preencher os 3 campos, a moldura da calculadora (.calc__box) cresce para
+  baixo e o resultado aparece ABAIXO dos campos de texto, com o mesmo texto e
+  destaques de agora ("Você pode economizar até / R$ X / por ano").
+- Fade-in na aparição.
+
+Alterações
+----------
+index.html
+  - Removido o <div class="calc-result"> que ficava fora do .calc__box.
+  - Novo bloco DENTRO do .calc__box, depois dos 3 inputs:
+    <div class="calc__result" data-calc-result hidden> com
+    .calc__result-text / -you / -value / -period. Data-attrs mantidos
+    (data-calc-result, data-calc-result-value), então o JS não muda de seletor.
+
+style.css
+  - Removidas todas as regras .calc-result*.
+  - .calc__result: display:none; width:100%; margin-top --space-2;
+    padding-top --space-4; border-top 1px rgba(224,26,120,.25) (divisória dos
+    campos); text-align center. Como o .calc__box é flex column, ele cresce
+    sozinho quando o bloco passa a ocupar espaço.
+  - .calc__result.is-visible: display:block + animation calc-result-in
+    (--t-slow) both. @keyframes: opacity 0->1 e translateY(8px)->0.
+  - Guard @media (prefers-reduced-motion: reduce) { animation:none }.
+  - Destaques adaptados ao fundo claro do .calc__box (não é mais fundo rosa
+    forte): .calc__result-you e -value em var(--magenta-600) negrito, igual
+    ao <strong> do .calc__hint. Texto base --text-secondary; "por ano" --text-muted.
+  - .calc__result-value: font display, clamp(1.5rem,6vw,1.9rem), --fw-black,
+    white-space:nowrap (moldura tem máx. 320px).
+
+app.js
+  - initCalculator() inalterado na lógica (mesmos data-attrs). Só o comentário
+    foi atualizado. Continua: setResultVisible troca hidden + classe .is-visible
+    (a classe dispara o fade-in via CSS); scrollIntoView no result; input.blur();
+    afterKeyboardCloses antes de rolar.
+
+Verificação (prints headless Chrome, 320 / 390 / 1280, campos preenchidos)
+  - A moldura da calculadora cresce e mostra o resultado abaixo dos campos,
+    com uma linha divisória.
+  - "Você" e o valor em magenta negrito; "por ano" discreto.
+  - Fade-in flagrado no meio da transição nos prints (confirma que anima).
+  - Stress "R$ 1.482.000,00" a 320px: cabe em 1 linha dentro da moldura.
+  - node -c app.js OK.

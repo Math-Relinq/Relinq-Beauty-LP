@@ -1,0 +1,29 @@
+Realce e fonte maior em "Você" e no valor do resultado da calculadora
+
+Pedido
+------
+Adicionar um destaque em "Você" e no resultado, e aumentar a fonte dos dois.
+
+Alteração (style.css)
+---------------------
+.calc__result-you
+  - Novo realce tipo marca-texto: display:inline-block, padding 0.05em 0.4em,
+    border-radius 6px, background rgba(224,26,120,0.14).
+  - Fonte: var(--fs-sm) herdado -> var(--fs-lg).
+  - Peso --fw-bold -> --fw-black; cor --magenta-600 -> --magenta-700.
+
+.calc__result-value
+  - Mesmo realce: width:fit-content + margin auto (fundo cola no texto, não
+    na linha toda), padding 0.08em 0.45em, border-radius 8px,
+    background rgba(224,26,120,0.14).
+  - Fonte: clamp(1.5rem,6vw,1.9rem) -> clamp(1.8rem,7vw,2.3rem).
+  - margin-top --space-1 -> --space-3 (respiro do realce de cima).
+  - Cor --magenta-600 -> --magenta-700. Mantido white-space:nowrap.
+
+Sem mudança em index.html e app.js. Fade-in (@keyframes calc-result-in) intacto.
+
+Verificação (prints headless, 320 / 390 / 1280, campos preenchidos)
+  - "Você" e o valor com fundo rosa suave (marca-texto), fontes maiores,
+    magenta mais escuro; leem como destaque claro dentro da moldura clara.
+  - Stress "R$ 1.482.000,00" a 320px: cabe em 1 linha dentro da moldura.
+  - Contagem de chaves do CSS balanceada (237/237).

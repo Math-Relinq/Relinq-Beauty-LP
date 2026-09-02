@@ -111,22 +111,8 @@
       </div>
 
       <div class="cost__highlight" data-reveal data-reveal-delay="2">
-        <!-- Valor de exemplo; some assim que a calculadora é preenchida. -->
-        <div data-cost-default>
-          <span class="cost__highlight-value">R$19.200,00</span>
-          <span class="cost__highlight-label">por ano apenas por não confirmar os agendamentos</span>
-        </div>
-
-        <div class="cost__compare" data-cost-compare aria-hidden="true">
-          <div class="cost__compare-row cost__compare-row--loss">
-            <span class="cost__compare-label">Sem Relinq Beauty</span>
-            <span class="cost__compare-value" data-cost-loss>- R$ 0,00/ano</span>
-          </div>
-          <div class="cost__compare-row cost__compare-row--gain">
-            <span class="cost__compare-label">Com Relinq Beauty</span>
-            <span class="cost__compare-value" data-cost-gain>+ R$ 0,00/ano</span>
-          </div>
-        </div>
+        <span class="cost__highlight-value">- R$19.200,00</span>
+        <span class="cost__highlight-label">por ano apenas por não confirmar os agendamentos</span>
       </div>
     </div>
 
@@ -138,6 +124,21 @@
         <input class="calc__input" type="text" inputmode="decimal" data-calc-input placeholder="Valor medio por serviço (R$)" aria-label="Ticket médio (R$)">
         <input class="calc__input" type="text" inputmode="decimal" data-calc-input placeholder="Faltas por dia" aria-label="Faltas por dia">
         <input class="calc__input" type="text" inputmode="decimal" data-calc-input placeholder="Dias trabalhados por mês" aria-label="Dias trabalhados por mês">
+
+        <!-- Ao preencher os 3 campos a moldura cresce: primeiro as bolinhas de
+             loading, e depois de 0,8s elas dão lugar ao resultado. -->
+        <div class="calc__result" data-calc-result hidden aria-live="polite">
+          <div class="calc__loading" data-calc-loading aria-hidden="true">
+            <span class="calc__dot"></span>
+            <span class="calc__dot"></span>
+            <span class="calc__dot"></span>
+          </div>
+          <p class="calc__result-text" data-calc-result-body hidden>
+            <strong class="calc__result-you">Você</strong> pode economizar até
+            <strong class="calc__result-value" data-calc-result-value>R$ 0,00</strong>
+            <span class="calc__result-period">por ano</span>
+          </p>
+        </div>
       </div>
     </div>
   </section>

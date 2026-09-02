@@ -958,9 +958,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-6);
-  /* o valor vem de um cálculo do usuário e pode ficar bem longo; sem o teto de
-     largura o retângulo cresce com o texto e é cortado em telas estreitas */
+  gap: var(--space-2);
   max-width: 100%;
   margin-top: var(--space-3);
   /* o bloco é reduzido por transform, então a caixa de layout é o dobro do que
@@ -976,59 +974,16 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 .cost__highlight-value {
   max-width: 100%;
   font-family: var(--font-display);
-  font-size: var(--fs-huge);
+  /* clamp com mínimo baixo + nowrap: "- R$19.200,00" cabe numa linha só
+     mesmo nas telas mais estreitas */
+  font-size: clamp(1.4rem, 6.5vw, 4.4rem);
   font-weight: var(--fw-black);
   letter-spacing: -0.02em;
-  overflow-wrap: break-word;
+  white-space: nowrap;
   text-align: center;
   scale: 1.1;
 }
 .cost__highlight-label { font-size: var(--fs-sm); font-weight: var(--fw-semibold); opacity: 0.92; }
-
-/* Comparativo que substitui o valor padrão assim que a calculadora é usada. */
-.cost__compare {
-  display: none;
-  flex-direction: column;
-  gap: var(--space-5);
-  width: 100%;
-}
-.cost__compare.is-visible { display: flex; }
-
-.cost__compare-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-1);
-}
-.cost__compare-label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  opacity: 0.92;
-}
-.cost__compare-value {
-  /* clamp menor que --fs-huge: valores como "R$ 19.200,00/ano" ficam longos e
-     não podem quebrar linha */
-  max-width: 100%;
-  font-size: clamp(1.4rem, 5.5vw, 2.6rem);
-  font-weight: var(--fw-black);
-  letter-spacing: -0.02em;
-  text-align: center;
-  white-space: nowrap;
-}
-.cost__compare-row--loss .cost__compare-label::before { content: "❌"; }
-.cost__compare-row--loss .cost__compare-value { color: var(--red-500); }
-.cost__compare-row--gain .cost__compare-label::before {
-  content: "✔";
-  font-size: 1.2em;
-  font-weight: var(--fw-bold);
-  color: var(--green-500);
-}
-.cost__compare-row--gain .cost__compare-value { color: var(--green-500); }
 
 /* Calculadora — fica fora do .section__body para poder ocupar a largura toda.
    `position: relative` faz o bloco virar sua própria camada de pintura; sem
@@ -1091,6 +1046,90 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   outline: none;
   border-color: var(--magenta-700);
   box-shadow: 0 0 0 3px rgba(224, 26, 120, 0.2);
+}
+
+/* Resultado — a própria moldura da calculadora cresce e revela isto abaixo
+   dos campos quando os 3 são preenchidos. */
+.calc__result {
+  display: none;
+  width: 100%;
+  margin-top: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(224, 26, 120, 0.25);
+  text-align: center;
+}
+.calc__result.is-visible {
+  display: block;
+  animation: calc-result-in var(--t-slow) both;
+}
+@keyframes calc-result-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Bolinhas de "loading" que aparecem antes do resultado. */
+.calc__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.4rem;
+}
+.calc__loading[hidden] { display: none; }
+.calc__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--magenta-600);
+  animation: calc-dot-bounce 1s ease-in-out infinite both;
+}
+.calc__dot:nth-child(2) { animation-delay: 0.16s; }
+.calc__dot:nth-child(3) { animation-delay: 0.32s; }
+@keyframes calc-dot-bounce {
+  0%, 80%, 100% { transform: translateY(0);     opacity: 0.45; }
+  40%           { transform: translateY(-9px);  opacity: 1; }
+}
+
+/* Troca das bolinhas pelo texto do resultado, com um fade suave. */
+.calc__result-text {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.calc__result-text:not([hidden]) {
+  animation: calc-result-in var(--t-base) both;
+}
+/* "Você" e o valor: destaque só na cor e no tamanho da letra. */
+.calc__result-you {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-black);
+  color: var(--magenta-700);
+}
+.calc__result-value {
+  display: block;
+  max-width: 100%;
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  /* nowrap para "R$" não se separar do número; clamp limitado porque a
+     moldura tem no máx. 320px */
+  font-size: clamp(1.8rem, 7vw, 2.3rem);
+  font-weight: var(--fw-black);
+  letter-spacing: -0.02em;
+  color: var(--magenta-700);
+  white-space: nowrap;
+}
+.calc__result-period {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .calc__result.is-visible,
+  .calc__result-text:not([hidden]) { animation: none; }
+  .calc__dot { animation: none; opacity: 0.7; }
 }
 
 /* -- 4. Lembretes --------------------------------------------------------- */
